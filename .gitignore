@@ -1,0 +1,10 @@
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
+
+#git rm -r --cached .
+application/src/main/resources/application-local.properties
+admin/src/main/resources/application-local.properties
+.idea/workspace.xml
