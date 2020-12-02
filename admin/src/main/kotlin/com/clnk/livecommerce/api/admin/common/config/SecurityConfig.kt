@@ -22,6 +22,14 @@ import org.springframework.security.web.server.util.matcher.ServerWebExchangeMat
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 class SecurityConfig(private val jwrService: JWTService) {
+    companion object {
+        val EXCLUDED_PATHS = arrayOf(
+            "/api/v1/auth/signup",
+            "/api/v1/category/**",
+            "/api/v1/item/**",
+        )
+    }
+
     @Bean
     fun configureSecurity(
         http: ServerHttpSecurity,
@@ -31,6 +39,9 @@ class SecurityConfig(private val jwrService: JWTService) {
             .cors().and()
             .csrf().disable()
             .logout().disable()
+//            .authorizeExchange()
+//            .pathMatchers(*EXCLUDED_PATHS).permitAll()
+//            .and()
             .authorizeExchange()
             .pathMatchers("/admin/v1/auth/signin")
             .authenticated()
@@ -43,7 +54,6 @@ class SecurityConfig(private val jwrService: JWTService) {
             .addFilterAt(bearerAuthenticationFilter(), SecurityWebFiltersOrder.AUTHENTICATION)
             .build()
     }
-
 
     @Bean
     fun basicAuthenticationFilter(

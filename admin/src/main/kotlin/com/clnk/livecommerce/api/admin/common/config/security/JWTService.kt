@@ -41,7 +41,7 @@ class JWTService(@Value("\${jwt.secret}") val secret: String,
         val validity = Date(getExpiration(expirationInMillis))
         return JWT.create()
             .withSubject(username)
-            .withIssuer("com.cucurbita")
+            .withIssuer("com.beautalk")
             .withExpiresAt(Date(System.currentTimeMillis() + expirationInMillis))
             .withArrayClaim("roles", roles)
             .withIssuedAt(now)
@@ -55,7 +55,7 @@ class JWTService(@Value("\${jwt.secret}") val secret: String,
 
     private fun decode(signature: String, token: String): DecodedJWT {
         return JWT.require(Algorithm.HMAC512(signature.toByteArray()))
-            .withIssuer("com.cucurbita")
+            .withIssuer("com.beautalk")
             .build()
             .verify(token.replace("Bearer ", ""))
     }
