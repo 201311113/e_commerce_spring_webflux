@@ -1,6 +1,7 @@
-package com.cucurbita.api.media
+package com.clnk.livecommerce.api.media
 
 import com.fasterxml.jackson.annotation.JsonInclude
+import org.springframework.http.codec.multipart.FilePart
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 data class MediaRes(
@@ -16,6 +17,7 @@ data class MediaRes(
     var imageExt: String? = "",
     var mediaKey: String? = ""
 )
+
 
 
 

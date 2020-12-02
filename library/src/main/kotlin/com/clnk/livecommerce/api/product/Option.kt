@@ -1,18 +1,16 @@
 package com.clnk.livecommerce.api.product
 
-import com.clnk.livecommerce.api.media.Media
 import com.clnk.livecommerce.api.model.BaseEntity
 import javax.persistence.*
 
 @Entity
-class OptionGroup(
+class OptionItem(
+
     @Column(length = 200)
-    var title: String,
-    var isRequired: Boolean,
+    var name: String,
+    var sortPosition: Int = 0,
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    @JoinColumn(name = "media_uuid", referencedColumnName = "media_uuid", insertable = false, updatable = false)
-    @OrderBy(value = "sort_position ASC")
-    var medias: MutableList<Media> = mutableListOf()
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "option_group_id")
+    var optionGroup: OptionGroup
 ) : BaseEntity()

@@ -1,39 +1,29 @@
-package com.clnk.livecommerce.api.member
+package com.clnk.livecommerce.api.product
 
+import com.clnk.livecommerce.api.media.Media
 import com.clnk.livecommerce.api.model.BaseEntity
-import com.clnk.livecommerce.api.member.MemberRole
+import org.apache.commons.lang3.RandomStringUtils
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import javax.persistence.*
 
 @Entity
-class Member(
+class Product(
     @Column(length = 200)
-    var snsId: String,
-    @Column(length = 50)
-    @Enumerated(EnumType.STRING)
-    var snsType: SnsType,
-    @Column(length = 10)
-    @Enumerated(EnumType.STRING)
-    var status: MemberStatus = MemberStatus.ACTIVE,
-    var password: String? = null,
-    var snsToken: String? = null,
-    @Column(length = 200)
-    var nickName: String? = null,
-    @Column(length = 100)
-    var realName: String? = null,
-    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "member")
-    var roles: MutableSet<MemberRole> = mutableSetOf()
+    var name: String,
+    @Column(name = "media_uuid", length = 32)
+    var mediaUuid: String = DateTimeFormatter.ofPattern("yyyyMMdd").withZone(ZoneId.systemDefault()).format(Instant.now()) + RandomStringUtils.randomAlphabetic(16),
+    @Lob
+    var description: String,
 
-) : BaseEntity() {
-    internal fun addRole(memberRole: MemberRole) {
-        roles.add(memberRole)
-        memberRole.member = this
-    }
-}
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "media_uuid", referencedColumnName = "media_uuid", insertable = false, updatable = false)
+    @OrderBy(value = "sort_position ASC")
+    var medias: MutableList<Media> = mutableListOf(),
 
-enum class MemberStatus {
-    ACTIVE, INACTIVE, LEAVE
-}
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "product_id", nullable = true, insertable = false, updatable = false)
+    var optionGroups: MutableList<OptionGroup> = mutableListOf()
 
-enum class SnsType {
-    EMAIL, FACEBOOK, KAKAO, GOOGLE, APPLE,
-}
+) : BaseEntity()

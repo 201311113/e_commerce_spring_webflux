@@ -1,13 +1,18 @@
-package com.clnk.livecommerce.api.product
+package com.clnk.livecommerce.api.onsaleitem
 
 import com.clnk.livecommerce.api.model.BaseEntity
-import javax.persistence.Column
+import java.math.BigDecimal
 import javax.persistence.Entity
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 
 @Entity
-class Option(
-    var optionGroupId: Long,
-    @Column(length = 200)
-    var name: String,
+class OnSaleItemOption(
+    var optionPrice: BigDecimal = BigDecimal.ZERO,
     var sortPosition: Int = 0,
+    var stock: Int,
+
+    @ManyToOne
+    @JoinColumn(name = "on_sale_item_option_group_id")
+    var onSaleItemOptionGroup: OnSaleItemOptionGroup
 ) : BaseEntity()

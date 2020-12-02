@@ -1,10 +1,10 @@
-CREATE USER 'livecommerceapi'@'%' IDENTIFIED WITH mysql_native_password BY 'livecommerce@!Local';
+CREATE USER 'livecommerceapi'@'%' IDENTIFIED WITH mysql_native_password BY 'live1commerce@!Local';
 CREATE DATABASE livecommerce;
 
 GRANT ALL ON livecommerce.* TO 'livecommerceapi'@'%';
 
 
-CREATE USER 'livecommercetest'@'%' IDENTIFIED WITH mysql_native_password BY 'livecommerce@!Test';
+CREATE USER 'livecommercetest'@'%' IDENTIFIED WITH mysql_native_password BY 'live1commerce@!Test';
 
 CREATE DATABASE livecommerce_test;
 GRANT ALL ON livecommerce_test.* TO 'livecommercetest'@'%';

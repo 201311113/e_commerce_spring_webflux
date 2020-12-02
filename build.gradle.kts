@@ -11,7 +11,7 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 plugins {
 
     val bootVer = "2.4.0"
-    val kotlinVer = "1.4.10"
+    val kotlinVer = "1.4.20"
     val springMgmtVer = "1.0.10.RELEASE"
 
     id("org.springframework.boot") version bootVer
@@ -112,7 +112,7 @@ subprojects {
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = "14"
+            jvmTarget = "15"
         }
     }
 }
@@ -122,7 +122,6 @@ project(":application") {
     dependencies {
         api(project(":library"))
         implementation("org.springframework.boot:spring-boot-starter-security")
-
         testImplementation("org.springframework.security:spring-security-test")
     }
     tasks.getByName<BootJar>("bootJar") {

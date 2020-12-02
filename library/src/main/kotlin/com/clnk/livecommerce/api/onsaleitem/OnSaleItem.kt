@@ -1,18 +1,13 @@
-package com.cucurbita.api.mentoitem
+package com.clnk.livecommerce.api.onsaleitem
 
-import com.cucurbita.api.category.MentoItemCategory
-import com.cucurbita.api.media.Media
-import com.cucurbita.api.mento.Mento
-import com.cucurbita.api.model.BaseEntity
-import org.apache.commons.lang3.RandomStringUtils
+import com.clnk.livecommerce.api.model.BaseEntity
+import com.clnk.livecommerce.api.product.Product
 import java.math.BigDecimal
 import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import javax.persistence.*
 
 @Entity
-data class MentoItem(
+data class OnSaleItem(
     var title: String,
     @Enumerated(EnumType.STRING)
     var status: ItemStatus = ItemStatus.INIT,
@@ -25,20 +20,9 @@ data class MentoItem(
     var hashTags: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mento_id")
-    var mento: Mento,
+    @JoinColumn(name = "product_id")
+    var product: Product
 
-    @Column(name = "media_uuid", length = 32)
-    var mediaUuid: String = DateTimeFormatter.ofPattern("yyyyMMdd").withZone(ZoneId.systemDefault()).format(Instant.now()) + RandomStringUtils.randomAlphabetic(16),
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    @JoinColumn(name = "media_uuid", referencedColumnName = "media_uuid", insertable = false, updatable = false)
-    @OrderBy(value = "sort_position ASC")
-    var medias: MutableList<Media> = mutableListOf(),
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    @JoinColumn(name = "mento_item_id", insertable = false, updatable = false)
-    var categorys: MutableList<MentoItemCategory> = mutableListOf(),
 ) : BaseEntity()
 
 enum class ItemStatus {

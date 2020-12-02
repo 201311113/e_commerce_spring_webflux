@@ -1,18 +1,21 @@
-package com.clnk.livecommerce.api.product
+package com.clnk.livecommerce.api.onsaleitem
 
 import com.clnk.livecommerce.api.model.BaseEntity
+import com.clnk.livecommerce.api.product.OptionGroup
 import javax.persistence.*
 
 @Entity
-class OptionGroup(
-    @Column(length = 200)
-    var title: String,
-    var isRequired: Boolean,
-    var sortPosition: Int = 0,
+class OnSaleItemOptionGroup(
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
-    @JoinColumn(name = "option_group_id", insertable = false, updatable = false)
-    @OrderBy(value = "sort_position ASC")
-    var options: MutableList<Option> = mutableListOf()
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "on_sale_item_id")
+    var onSaleItem: OnSaleItem,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "option_group_id")
+    var optionGroup: OptionGroup,
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "onSaleItemOptionGroup")
+    var options: MutableList<OnSaleItemOption> = mutableListOf()
 
 ) : BaseEntity()

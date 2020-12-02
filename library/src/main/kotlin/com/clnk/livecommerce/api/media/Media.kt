@@ -1,6 +1,6 @@
-package com.cucurbita.api.media
+package com.clnk.livecommerce.api.media
 
-import com.cucurbita.api.model.BaseEntity
+import com.clnk.livecommerce.api.model.BaseEntity
 import javax.persistence.Column
 import javax.persistence.Entity
 
