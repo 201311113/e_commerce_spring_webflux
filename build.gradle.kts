@@ -77,8 +77,8 @@ subprojects {
     dependencies {
         implementation("com.amazonaws:aws-java-sdk-s3:1.11.862")
         implementation("org.springframework.boot:spring-boot-starter-validation")
-        implementation("com.auth0:java-jwt:3.10.3")
-        implementation("org.modelmapper:modelmapper:2.3.8")
+        implementation("com.auth0:java-jwt:3.11.0")
+        implementation("org.modelmapper:modelmapper:2.3.9")
 
         api("com.querydsl:querydsl-jpa:$queryDslVer")
         kapt("com.querydsl:querydsl-apt:$queryDslVer:jpa")

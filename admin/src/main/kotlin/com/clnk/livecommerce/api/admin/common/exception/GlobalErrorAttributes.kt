@@ -25,8 +25,8 @@ class GlobalErrorAttributes(
         var errorAttributes: MutableMap<String, Any> = LinkedHashMap()
         var status = HttpStatus.INTERNAL_SERVER_ERROR
         val error = getError(request)
-//        log.debug { "]-----] GlobalErrorAttributes::getErrorAttributes error [-----[ ${error}" }
-//        log.debug { "]-----] GlobalErrorAttributes::getErrorAttributes error [-----[ ${error::class.qualifiedName}" }
+        log.debug { "]-----] GlobalErrorAttributes::getErrorAttributes error [-----[ ${error}" }
+        log.debug { "]-----] GlobalErrorAttributes::getErrorAttributes error [-----[ ${error::class.qualifiedName}" }
         var message = error.message
         if (error is ResponseStatusException) {
             message = error.reason!!
@@ -43,7 +43,10 @@ class GlobalErrorAttributes(
         }
         errorAttributes["timestamp"] = Date()
         errorAttributes["path"] = request.path()
-        errorAttributes["message"] = message!!
+        if (message != null) {
+
+            errorAttributes["message"] = message!!
+        }
         errorAttributes["status"] = status.value()
         errorAttributes["error"] = HttpStatus.valueOf(status.value()).reasonPhrase
         errorAttributes["error"] = HttpStatus.valueOf(status.value()).reasonPhrase
