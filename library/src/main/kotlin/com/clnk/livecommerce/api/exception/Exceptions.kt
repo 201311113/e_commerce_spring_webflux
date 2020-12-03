@@ -12,6 +12,7 @@ class LogicalException : ApplicationException(ErrorMessageCode.LOGIC_ERROR)
 class SignupException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
 class SigninException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
 class ProductException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
+class MediaUtilsException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
 
 class OrderException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
 

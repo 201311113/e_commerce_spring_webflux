@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import javax.persistence.EntityNotFoundException
 
 private val log = KotlinLogging.logger {}
 
@@ -61,5 +62,52 @@ class ProductServiceImpl(
         return items.map {
             modelMapper.map(it, ProductRes::class.java)
         }
+    }
+
+    @Transactional(readOnly = true)
+    override fun findById(id: Long): ProductRes {
+        val item = productRepository.findByIdAndActive(id, true)
+        return modelMapper.map(item, ProductRes::class.java)
+    }
+
+    @Transactional
+    override fun update(id: Long, req: CreateProductReq, adminId: Long): CreateProductRes {
+        log.info { "]-----] ProductServiceImpl::update CreateProductReq[-----[ ${req}" }
+        val product = productRepository.findByIdAndActive(id, true)
+            ?: throw EntityNotFoundException("not found a Product(id = ${id})")
+        product.name = req.name
+        product.description = req.description
+        productRepository.save(product)
+
+        if (req.newImages.size > 0) {
+            val medias: MutableList<Media> = mutableListOf()
+            for (i in req.newImages.indices) {
+                val mediaInfo = req.newImages[i].productImage?.let { mediaUtils.getMediaInfo(it, "product") }
+                val newMedia = Media(
+                    mediaUuid = product.mediaUuid,
+                    url = mediaInfo!!.fullPath,
+                    originName = mediaInfo.originalName,
+                    modifyName = mediaInfo.modifyName,
+                    pathS3 = mediaInfo.bucketPath,
+                    imageExt = mediaInfo.imageExt,
+                    sortPosition = req.newImages[i].sortPosition
+                )
+                medias.add(newMedia)
+            }
+            mediaRepository.saveAll(medias)
+        }
+
+        if (req.updatedImages.size > 0) {
+            for (j in req.updatedImages.indices) {
+                val media = mediaRepository.findByIdAndMediaUuidAndActive(req.updatedImages[j].id, product.mediaUuid, true)
+                    ?: throw EntityNotFoundException("not found a Media(id = ${req.updatedImages[j].id})")
+                media.sortPosition = req.updatedImages[j].sortPosition
+                mediaRepository.save(media)
+            }
+        }
+        if (req.deletedImages.size > 0) {
+            mediaRepository.deleteByIds(req.deletedImages, product.mediaUuid)
+        }
+        return CreateProductRes(product.id!!)
     }
 }

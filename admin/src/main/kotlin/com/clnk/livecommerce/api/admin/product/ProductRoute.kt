@@ -13,6 +13,9 @@ class ProductRoute {
     fun mentoItemRoute(handler: ProductHandler) = coRouter {
         path(basePath).nest {
             POST("", accept(MediaType.MULTIPART_FORM_DATA), handler::create)
+            GET("", handler::findAll)
+            GET("/{id}", handler::findById)
+            POST("/{id}", handler::update)
         }
     }
 }

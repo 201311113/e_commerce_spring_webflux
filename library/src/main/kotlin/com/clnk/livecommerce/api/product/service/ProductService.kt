@@ -9,4 +9,6 @@ import org.springframework.data.domain.Pageable
 interface ProductService {
     fun create(req: CreateProductReq, adminId: Long): CreateProductRes
     fun findAll(pageable: Pageable): Page<ProductRes>
+    fun findById(id: Long): ProductRes
+    fun update(id: Long, req: CreateProductReq, adminId: Long): CreateProductRes
 }

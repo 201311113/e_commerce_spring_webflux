@@ -18,6 +18,7 @@ enum class ErrorMessageCode(val code: String, val message: String) {
     PRODUCT_NAME_REQUIRED("1501", "product name required"),
     PRODUCT_DESCRIPTION_REQUIRED("1502", "product description required"),
     PRODUCT_IMAGE_REQUIRED("1503", "product image required"),
+    FILE_NOT_FOUND("1503", "file not found"),
 
 
     ORDER_PRICE_NOT_ALLOWED("2001", "Order Price Not Allowed"),

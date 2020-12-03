@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface ProductRepository : JpaRepository<Product, Long> {
     fun findAllByActive(pageable: Pageable, active: Boolean): Page<Product>
+    fun findByIdAndActive(id: Long, active: Boolean): Product?
 }
