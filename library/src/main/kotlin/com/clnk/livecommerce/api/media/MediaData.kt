@@ -18,6 +18,12 @@ data class MediaRes(
     var mediaKey: String? = ""
 )
 
+data class MediaReq(
+    var id: Long = -1,
+    var isDefault: Boolean? = false,
+    var sortPosition: Int = 0
+)
+
 
 
 

@@ -43,12 +43,18 @@ class MediaUtils @Autowired constructor(
 
     fun getMediaInfo(file: FilePart, bucketPath: String): MediaInfo {
         val originalName = file.filename()
+        logger.debug { "]-----] MediaUtils::getMediaInfo.file [-----[ $file" }
         val imageExt = getImageExtention(originalName)
         val modifyName = getModifyName(imageExt)
         val tempFile = File(props.tempFilePath + modifyName)
+        tempFile.mkdirs()
         logger.debug { "]-----] MediaUtils::getMediaInfo.originalFileName [-----[ $originalName" }
-        file.transferTo(tempFile)
         logger.debug { "]-----] MediaUtils::getMediaInfo.tempFile [-----[ $tempFile" }
+        logger.debug { "]-----] MediaUtils::getMediaInfo.canWrite [-----[ ${tempFile.canWrite()}" }
+        file.transferTo(tempFile)
+
+
+
         if (isImage(tempFile)) {
             upload(bucketPath, tempFile)
         }

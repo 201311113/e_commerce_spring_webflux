@@ -14,6 +14,12 @@ enum class ErrorMessageCode(val code: String, val message: String) {
     SNSTOKEN_NOT_ACCEPTABLE("1003", "snstoken not acceptable"),
     SNSID_ALREADY_EXISTS("1004", "snsid already exists"),
 
+    PRODUCT_NOT_FOUND("1500", "product not found"),
+    PRODUCT_NAME_REQUIRED("1501", "product name required"),
+    PRODUCT_DESCRIPTION_REQUIRED("1502", "product description required"),
+    PRODUCT_IMAGE_REQUIRED("1503", "product image required"),
+
+
     ORDER_PRICE_NOT_ALLOWED("2001", "Order Price Not Allowed"),
     ORDER_PRICE_NOT_MATCHED("2002", "Order Price Not Matched"),
     TOTAL_PRICE_NOT_ALLOWED("2003", "Total Price Not Allowed"),

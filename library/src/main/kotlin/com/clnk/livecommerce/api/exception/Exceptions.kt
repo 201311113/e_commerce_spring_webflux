@@ -11,12 +11,9 @@ class NotFoundException : ApplicationException(ErrorMessageCode.NOT_FOUND)
 class LogicalException : ApplicationException(ErrorMessageCode.LOGIC_ERROR)
 class SignupException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
 class SigninException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
-class MentoException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
-class MentoItemException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
+class ProductException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
 
 class OrderException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
-class ReservationItemException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
-class InterviewException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
 
 class ValueNotValidException(override var errors: List<ApiError>?) : ApplicationException(ErrorMessageCode.VALUE_NOT_VALID)
 

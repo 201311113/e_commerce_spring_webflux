@@ -1,5 +1,6 @@
 package com.clnk.livecommerce.api.product
 
+import com.clnk.livecommerce.api.media.MediaReq
 import com.clnk.livecommerce.api.media.MediaRes
 import org.springframework.http.codec.multipart.FilePart
 import java.time.Instant
@@ -9,11 +10,13 @@ data class CreateProductReq(
     @get:NotBlank
     var name: String,
     var description: String,
-    var medias: MutableList<ProductMediaReq> = mutableListOf()
+    var updatedImages: MutableList<MediaReq> = mutableListOf(),
+    var newImages: MutableList<ProductMediaReq> = mutableListOf(),
+    var deletedImages: MutableList<Long> = mutableListOf()
 )
 
 data class ProductMediaReq(
-    var itemImage: FilePart? = null,
+    var productImage: FilePart? = null,
     var sortPosition: Int = 0
 )
 

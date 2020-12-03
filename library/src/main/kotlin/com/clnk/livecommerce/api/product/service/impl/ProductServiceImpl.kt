@@ -1,8 +1,11 @@
 package com.clnk.livecommerce.api.product.service.impl
 
 import com.clnk.livecommerce.api.infra.MediaUtils
+import com.clnk.livecommerce.api.media.Media
+import com.clnk.livecommerce.api.media.repository.MediaRepository
 import com.clnk.livecommerce.api.product.CreateProductReq
 import com.clnk.livecommerce.api.product.CreateProductRes
+import com.clnk.livecommerce.api.product.Product
 import com.clnk.livecommerce.api.product.ProductRes
 import com.clnk.livecommerce.api.product.repository.ProductRepository
 import com.clnk.livecommerce.api.product.service.ProductService
@@ -19,13 +22,37 @@ private val log = KotlinLogging.logger {}
 class ProductServiceImpl(
 
     private var productRepository: ProductRepository,
+    private var mediaRepository: MediaRepository,
     private var modelMapper: ModelMapper,
     private var mediaUtils: MediaUtils,
 ) : ProductService {
     @Transactional
     override fun create(req: CreateProductReq, adminId: Long): CreateProductRes {
         log.info { "]-----] ProductServiceImpl::create CreateProductReq[-----[ ${req}" }
-        return CreateProductRes(-1)
+        val newProduct = Product(
+            name = req.name,
+            description = req.description
+        )
+        productRepository.save(newProduct)
+        if (req.newImages.size > 0) {
+            val medias: MutableList<Media> = mutableListOf()
+            for (i in req.newImages.indices) {
+                val mediaInfo = req.newImages[i].productImage?.let { mediaUtils.getMediaInfo(it, "product") }
+                val newMedia = Media(
+                    mediaUuid = newProduct.mediaUuid,
+                    url = mediaInfo!!.fullPath,
+                    originName = mediaInfo.originalName,
+                    modifyName = mediaInfo.modifyName,
+                    pathS3 = mediaInfo.bucketPath,
+                    imageExt = mediaInfo.imageExt,
+                    sortPosition = req.newImages[i].sortPosition
+                )
+                medias.add(newMedia)
+            }
+            mediaRepository.saveAll(medias)
+        }
+
+        return CreateProductRes(newProduct.id!!)
     }
 
     @Transactional(readOnly = true)
