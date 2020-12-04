@@ -28,6 +28,7 @@ class ProductHandler(
 ) {
 
     suspend fun create(request: ServerRequest): ServerResponse {
+        log.info { "]-----] ProductHandler::create call [-----[" }
         val multipartMap = request.awaitMultipartData()
         log.debug { "]-----] ProductHandler::create multipartMap [-----[ ${multipartMap}" }
         val adminId = request.awaitPrincipal()!!.name.toLong()
@@ -65,6 +66,7 @@ class ProductHandler(
         }
 
     }
+
     private fun mapToReq(multipartMap: MultiValueMap<String, Part>): CreateProductReq {
         log.debug { "]-----] ProductHandler::create mapToReq [-----[ ${multipartMap}" }
         val partMap: Map<String, Part> = multipartMap.toSingleValueMap()

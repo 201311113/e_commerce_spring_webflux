@@ -6,11 +6,11 @@ import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.server.coRouter
 
 @Configuration
-class ProductRoute {
+class ProductRouter {
     val basePath = "/admin/v1/product"
 
     @Bean
-    fun mentoItemRoute(handler: ProductHandler) = coRouter {
+    fun productRoute(handler: ProductHandler) = coRouter {
         path(basePath).nest {
             POST("", accept(MediaType.MULTIPART_FORM_DATA), handler::create)
             GET("", handler::findAll)
