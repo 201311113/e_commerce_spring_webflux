@@ -3,6 +3,7 @@ package com.clnk.livecommerce.api.onsaleitem
 import com.clnk.livecommerce.api.model.BaseEntity
 import java.math.BigDecimal
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 
@@ -12,7 +13,6 @@ class OnSaleItemOption(
     var sortPosition: Int = 0,
     var stock: Int,
 
-    @ManyToOne
-    @JoinColumn(name = "on_sale_item_option_group_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     var onSaleItemOptionGroup: OnSaleItemOptionGroup
 ) : BaseEntity()

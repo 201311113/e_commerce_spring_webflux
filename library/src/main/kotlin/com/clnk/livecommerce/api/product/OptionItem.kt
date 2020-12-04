@@ -11,6 +11,6 @@ class OptionItem(
     var sortPosition: Int = 0,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "option_group_id")
+//    @JoinColumn(name = "option_group_id")
     var optionGroup: OptionGroup
 ) : BaseEntity()

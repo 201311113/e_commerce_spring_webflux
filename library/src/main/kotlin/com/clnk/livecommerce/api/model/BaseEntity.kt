@@ -15,11 +15,15 @@ abstract class BaseEntity : Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
+    var createdId: Long? = null
+    var updatedId: Long? = null
+
     @CreatedDate
     lateinit var createdAt: Instant
 
     @LastModifiedDate
     lateinit var updatedAt: Instant
+
 
     @Column(columnDefinition = "boolean default true")
     var active: Boolean = true

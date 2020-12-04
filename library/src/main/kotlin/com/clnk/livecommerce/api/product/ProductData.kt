@@ -22,11 +22,20 @@ data class ProductMediaReq(
 
 data class CreateProductRes(var id: Long = -1)
 
+data class ProductListRes(
+    var id: Long = -1,
+    var name: String? = null,
+    var description: String? = null,
+    var medias: MutableList<MediaRes> = mutableListOf(),
+    var createdAt: Instant? = null
+)
+
 data class ProductRes(
     var id: Long = -1,
     var name: String? = null,
     var description: String? = null,
     var medias: MutableList<MediaRes> = mutableListOf(),
+    var optionGroups: MutableList<OptionGroupRes> = mutableListOf(),
     var createdAt: Instant? = null
 )
 

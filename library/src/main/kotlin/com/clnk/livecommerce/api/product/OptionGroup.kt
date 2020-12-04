@@ -10,7 +10,12 @@ class OptionGroup(
     var isRequired: Boolean,
     var sortPosition: Int = 0,
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "optionGroup")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    var product: Product,
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "option_group_id", referencedColumnName = "id", nullable = true)
     @OrderBy(value = "sort_position ASC")
     var options: MutableList<OptionItem> = mutableListOf()
 

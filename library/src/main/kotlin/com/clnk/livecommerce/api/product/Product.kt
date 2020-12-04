@@ -24,6 +24,7 @@ class Product(
 
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "product_id", nullable = true, insertable = false, updatable = false)
+    @OrderBy(value = "sort_position ASC")
     var optionGroups: MutableList<OptionGroup> = mutableListOf()
 
 ) : BaseEntity()

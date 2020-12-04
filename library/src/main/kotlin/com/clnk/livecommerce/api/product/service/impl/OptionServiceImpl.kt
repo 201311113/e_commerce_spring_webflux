@@ -2,17 +2,12 @@ package com.clnk.livecommerce.api.product.service.impl
 
 import com.clnk.livecommerce.api.infra.MediaUtils
 import com.clnk.livecommerce.api.media.Media
-import com.clnk.livecommerce.api.media.repository.MediaRepository
-import com.clnk.livecommerce.api.product.CreateProductReq
-import com.clnk.livecommerce.api.product.CreateProductRes
-import com.clnk.livecommerce.api.product.Product
-import com.clnk.livecommerce.api.product.ProductRes
+import com.clnk.livecommerce.api.product.*
+import com.clnk.livecommerce.api.product.repository.OptionGroupRepository
 import com.clnk.livecommerce.api.product.repository.ProductRepository
-import com.clnk.livecommerce.api.product.service.ProductService
+import com.clnk.livecommerce.api.product.service.OptionService
 import mu.KotlinLogging
 import org.modelmapper.ModelMapper
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityNotFoundException
@@ -20,94 +15,64 @@ import javax.persistence.EntityNotFoundException
 private val log = KotlinLogging.logger {}
 
 @Service
-class ProductServiceImpl(
-
+class OptionServiceImpl(
     private var productRepository: ProductRepository,
-    private var mediaRepository: MediaRepository,
+    private var optionGroupRepository: OptionGroupRepository,
     private var modelMapper: ModelMapper,
     private var mediaUtils: MediaUtils,
-) : ProductService {
+) : OptionService {
     @Transactional
-    override fun create(req: CreateProductReq, adminId: Long): CreateProductRes {
+    override fun create(productId: Long, req: CreateOptionReq, adminId: Long): CreateOptionRes {
         log.info { "]-----] ProductServiceImpl::create CreateProductReq[-----[ ${req}" }
-        val newProduct = Product(
-            name = req.name,
-            description = req.description
+        val product = productRepository.findByIdAndActive(productId, true)
+            ?: throw EntityNotFoundException("not found a Product(id = ${productId})")
+        val newOptionGroup = modelMapper.map(req, OptionGroup::class.java)
+        newOptionGroup.product = product
+        newOptionGroup.createdId = adminId
+        optionGroupRepository.save(newOptionGroup)
+
+        return CreateOptionRes(newOptionGroup.id!!)
+    }
+
+    @Transactional(readOnly = true)
+    override fun findAllByProductId(productId: Long): OptionGroupListRes {
+        val items = optionGroupRepository.findAllByProductIdAndActive(productId, true)
+        return OptionGroupListRes(
+            content = items.map {
+                modelMapper.map(it, OptionGroupRes::class.java)
+            }.toMutableList()
         )
-        productRepository.save(newProduct)
-        if (req.newImages.size > 0) {
-            val medias: MutableList<Media> = mutableListOf()
-            for (i in req.newImages.indices) {
-                val mediaInfo = req.newImages[i].productImage?.let { mediaUtils.getMediaInfo(it, "product") }
-                val newMedia = Media(
-                    mediaUuid = newProduct.mediaUuid,
-                    url = mediaInfo!!.fullPath,
-                    originName = mediaInfo.originalName,
-                    modifyName = mediaInfo.modifyName,
-                    pathS3 = mediaInfo.bucketPath,
-                    imageExt = mediaInfo.imageExt,
-                    sortPosition = req.newImages[i].sortPosition
-                )
-                medias.add(newMedia)
-            }
-            mediaRepository.saveAll(medias)
-        }
-
-        return CreateProductRes(newProduct.id!!)
     }
 
     @Transactional(readOnly = true)
-    override fun findAll(pageable: Pageable): Page<ProductRes> {
-        val items = productRepository.findAllByActive(pageable, true)
-        return items.map {
-            modelMapper.map(it, ProductRes::class.java)
-        }
-    }
-
-    @Transactional(readOnly = true)
-    override fun findById(id: Long): ProductRes {
-        val item = productRepository.findByIdAndActive(id, true)
-        return modelMapper.map(item, ProductRes::class.java)
+    override fun findById(id: Long): OptionGroupRes {
+        val item = optionGroupRepository.findByIdAndActive(id, true)
+        return modelMapper.map(item, OptionGroupRes::class.java)
     }
 
     @Transactional
-    override fun update(id: Long, req: CreateProductReq, adminId: Long): CreateProductRes {
-        log.info { "]-----] ProductServiceImpl::update CreateProductReq[-----[ ${req}" }
-        val product = productRepository.findByIdAndActive(id, true)
-            ?: throw EntityNotFoundException("not found a Product(id = ${id})")
-        product.name = req.name
-        product.description = req.description
-        productRepository.save(product)
+    override fun update(id: Long, req: CreateOptionReq, adminId: Long): CreateOptionRes {
 
-        if (req.newImages.size > 0) {
-            val medias: MutableList<Media> = mutableListOf()
-            for (i in req.newImages.indices) {
-                val mediaInfo = req.newImages[i].productImage?.let { mediaUtils.getMediaInfo(it, "product") }
-                val newMedia = Media(
-                    mediaUuid = product.mediaUuid,
-                    url = mediaInfo!!.fullPath,
-                    originName = mediaInfo.originalName,
-                    modifyName = mediaInfo.modifyName,
-                    pathS3 = mediaInfo.bucketPath,
-                    imageExt = mediaInfo.imageExt,
-                    sortPosition = req.newImages[i].sortPosition
-                )
-                medias.add(newMedia)
+        return CreateOptionRes(-1)
+    }
+
+    @Transactional
+    override fun updateOptionGroupSort(req: UpdateOptionGroupSortReq, adminId: Long): CreateOptionRes {
+        return if (req.optionGroups.size > 0) {
+            val optionGroups: MutableList<OptionGroup> = mutableListOf()
+            for (i in req.optionGroups.indices) {
+                val optionGroup = optionGroupRepository.findByIdAndActive(req.optionGroups[i].id, true)
+                    ?: throw EntityNotFoundException("not found a OptionGroups(id = ${req.optionGroups[i].id})")
+                optionGroup.sortPosition = req.optionGroups[i].sortPosition
+                optionGroup.updatedId = adminId
+                optionGroupRepository.save(optionGroup)
+                optionGroups.add(optionGroup)
             }
-            mediaRepository.saveAll(medias)
+            optionGroupRepository.saveAll(optionGroups)
+            CreateOptionRes(1)
+        } else {
+            CreateOptionRes(-1)
         }
 
-        if (req.updatedImages.size > 0) {
-            for (j in req.updatedImages.indices) {
-                val media = mediaRepository.findByIdAndMediaUuidAndActive(req.updatedImages[j].id, product.mediaUuid, true)
-                    ?: throw EntityNotFoundException("not found a Media(id = ${req.updatedImages[j].id})")
-                media.sortPosition = req.updatedImages[j].sortPosition
-                mediaRepository.save(media)
-            }
-        }
-        if (req.deletedImages.size > 0) {
-            mediaRepository.deleteByIds(req.deletedImages, product.mediaUuid)
-        }
-        return CreateProductRes(product.id!!)
     }
 }

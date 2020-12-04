@@ -3,10 +3,7 @@ package com.clnk.livecommerce.api.product.service.impl
 import com.clnk.livecommerce.api.infra.MediaUtils
 import com.clnk.livecommerce.api.media.Media
 import com.clnk.livecommerce.api.media.repository.MediaRepository
-import com.clnk.livecommerce.api.product.CreateProductReq
-import com.clnk.livecommerce.api.product.CreateProductRes
-import com.clnk.livecommerce.api.product.Product
-import com.clnk.livecommerce.api.product.ProductRes
+import com.clnk.livecommerce.api.product.*
 import com.clnk.livecommerce.api.product.repository.ProductRepository
 import com.clnk.livecommerce.api.product.service.ProductService
 import mu.KotlinLogging
@@ -57,10 +54,10 @@ class ProductServiceImpl(
     }
 
     @Transactional(readOnly = true)
-    override fun findAll(pageable: Pageable): Page<ProductRes> {
+    override fun findAll(pageable: Pageable): Page<ProductListRes> {
         val items = productRepository.findAllByActive(pageable, true)
         return items.map {
-            modelMapper.map(it, ProductRes::class.java)
+            modelMapper.map(it, ProductListRes::class.java)
         }
     }
 
@@ -96,7 +93,8 @@ class ProductServiceImpl(
             }
             mediaRepository.saveAll(medias)
         }
-
+        log.info { "]-----] ProductServiceImpl::update updatedImages[-----[ ${req.updatedImages.size}" }
+        log.info { "]-----] ProductServiceImpl::update deletedImages[-----[ ${req.deletedImages.size}" }
         if (req.updatedImages.size > 0) {
             for (j in req.updatedImages.indices) {
                 val media = mediaRepository.findByIdAndMediaUuidAndActive(req.updatedImages[j].id, product.mediaUuid, true)

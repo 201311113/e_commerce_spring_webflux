@@ -1,14 +1,11 @@
 package com.clnk.livecommerce.api.product.service
 
-import com.clnk.livecommerce.api.product.CreateProductReq
-import com.clnk.livecommerce.api.product.CreateProductRes
-import com.clnk.livecommerce.api.product.ProductRes
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
+import com.clnk.livecommerce.api.product.*
 
-interface ProductService {
-    fun create(req: CreateProductReq, adminId: Long): CreateProductRes
-    fun findAll(pageable: Pageable): Page<ProductRes>
-    fun findById(id: Long): ProductRes
-    fun update(id: Long, req: CreateProductReq, adminId: Long): CreateProductRes
+interface OptionService {
+    fun create(productId: Long, req: CreateOptionReq, adminId: Long): CreateOptionRes
+    fun findAllByProductId(productId: Long): OptionGroupListRes
+    fun findById(id: Long): OptionGroupRes
+    fun update(id: Long, req: CreateOptionReq, adminId: Long): CreateOptionRes
+    fun updateOptionGroupSort(req: UpdateOptionGroupSortReq, adminId: Long): CreateOptionRes
 }

@@ -85,7 +85,7 @@ subprojects {
         kapt("org.springframework.boot:spring-boot-configuration-processor")
         implementation("io.github.microutils:kotlin-logging:$loggerVer")
         implementation("org.apache.commons:commons-lang3")
-//        implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.6.2")
+        implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.6.2")
 
         implementation("org.springframework.boot:spring-boot-starter-webflux")
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
