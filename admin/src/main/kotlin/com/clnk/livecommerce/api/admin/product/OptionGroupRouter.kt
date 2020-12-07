@@ -6,14 +6,18 @@ import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.server.coRouter
 
 @Configuration
-class OptionRouter {
-    val basePath = "/admin/v1/option"
+class OptionGroupRouter {
+    val basePath = "/admin/v1/optiongroup"
 
     @Bean
-    fun optionRoute(handler: OptionHandler) = coRouter {
+    fun optionGruopRoute(handler: OptionGroupHandler) = coRouter {
         path(basePath).nest {
             accept(MediaType.APPLICATION_JSON).nest {
+                POST("/product/{productId}", handler::create)
+                GET("/product/{productId}", handler::findAllByProductId)
+                POST("/update/sort", handler::updateOptionGroupSort)
                 GET("/{id}", handler::findById)
+                POST("/{id}", handler::update)
             }
         }
     }

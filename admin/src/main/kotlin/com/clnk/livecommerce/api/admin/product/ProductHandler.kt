@@ -58,7 +58,7 @@ class ProductHandler(
     suspend fun update(request: ServerRequest): ServerResponse {
         val id = request.pathVariable("id").toLong()
         val multipartMap = request.awaitMultipartData()
-        log.debug { "]-----] ProductHandler::create multipartMap [-----[ ${multipartMap}" }
+        log.debug { "]-----] ProductHandler::update multipartMap [-----[ ${multipartMap}" }
         val adminId = request.awaitPrincipal()!!.name.toLong()
         val req = mapToReq(multipartMap)
         return productService.update(id, req, adminId).let {

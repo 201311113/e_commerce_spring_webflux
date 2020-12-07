@@ -4,14 +4,21 @@ data class CreateOptionReq(
     var title: String,
     var isRequired: Boolean? = false,
     var sortPosition: Int? = null,
-    var options: MutableList<OptionItemReq> = mutableListOf()
+    var optionItems: MutableList<CreateOptionItemReq> = mutableListOf()
 )
 
 data class CreateOptionRes(
     var id: Long = -1
 )
 
-data class OptionItemReq(
+data class CreateOptionItemReq(
+//    var id: Long = -1,
+    var name: String,
+    var sortPosition: Int
+)
+
+data class UpdateOptionItemReq(
+    var id: Long = -1,
     var name: String,
     var sortPosition: Int
 )
@@ -21,7 +28,7 @@ data class OptionGroupRes(
     var title: String? = null,
     var isRequired: Boolean? = null,
     var sortPosition: Int? = null,
-    var options: MutableList<OptionItemRes> = mutableListOf()
+    var optionItems: MutableList<OptionItemRes> = mutableListOf()
 )
 
 data class OptionItemRes(
@@ -44,4 +51,14 @@ data class UpdateOptionGroupReq(
 
 data class UpdateOptionGroupSortReq(
     var optionGroups: MutableList<UpdateOptionGroupReq> = mutableListOf()
+)
+
+
+data class UpdateOptionReq(
+    var title: String,
+    var isRequired: Boolean? = false,
+    var sortPosition: Int? = null,
+    var updatedOptionItems: MutableList<UpdateOptionItemReq> = mutableListOf(),
+    var newOptionItems: MutableList<CreateOptionItemReq> = mutableListOf(),
+    var deletedOptionItemIds: MutableList<Long> = mutableListOf()
 )
