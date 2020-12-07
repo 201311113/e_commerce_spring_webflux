@@ -39,3 +39,6 @@ data class ProductRes(
     var createdAt: Instant? = null
 )
 
+enum class ProductSearchCondition(val searchKey: String) {
+    NAME("name"), DESCRIPTION("description")
+}

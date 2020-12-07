@@ -7,11 +7,14 @@ import com.clnk.livecommerce.api.product.*
 import com.clnk.livecommerce.api.product.repository.ProductRepository
 import com.clnk.livecommerce.api.product.service.ProductService
 import mu.KotlinLogging
+import org.apache.commons.lang3.EnumUtils
 import org.modelmapper.ModelMapper
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.util.MultiValueMap
+import java.util.*
 import javax.persistence.EntityNotFoundException
 
 private val log = KotlinLogging.logger {}
@@ -54,8 +57,8 @@ class ProductServiceImpl(
     }
 
     @Transactional(readOnly = true)
-    override fun findAll(pageable: Pageable): Page<ProductListRes> {
-        val items = productRepository.findAllByActive(pageable, true)
+    override fun findAll(pageable: Pageable, queryParams: MultiValueMap<String, String>): Page<ProductListRes> {
+        val items = productRepository.findAllBySearch(pageable, queryParams)
         return items.map {
             modelMapper.map(it, ProductListRes::class.java)
         }

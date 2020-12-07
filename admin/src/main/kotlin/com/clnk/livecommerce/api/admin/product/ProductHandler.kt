@@ -43,7 +43,7 @@ class ProductHandler(
         val sort = Sort.by(Sort.Direction.DESC, "id")
         val page = if (request.queryParam("page").isPresent) request.queryParam("page").get().toInt() else 0
         val size = if (request.queryParam("size").isPresent) request.queryParam("size").get().toInt() else 10
-        return productService.findAll(PageRequest.of(page, size, sort)).let {
+        return productService.findAll(PageRequest.of(page, size, sort), request.queryParams()).let {
             ok().contentType(APPLICATION_JSON).bodyValueAndAwait(it)
         }
     }
