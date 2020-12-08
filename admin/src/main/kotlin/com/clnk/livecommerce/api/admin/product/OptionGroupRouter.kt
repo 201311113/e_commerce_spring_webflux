@@ -18,6 +18,7 @@ class OptionGroupRouter {
                 POST("/update/sort", handler::updateOptionGroupSort)
                 GET("/{id}", handler::findById)
                 POST("/{id}", handler::update)
+                DELETE("/{id}", handler::delete)
             }
         }
     }

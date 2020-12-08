@@ -1,6 +1,7 @@
 package com.clnk.livecommerce.api.product
 
 import com.clnk.livecommerce.api.model.BaseEntity
+import org.hibernate.annotations.Where
 import javax.persistence.*
 
 @Entity
@@ -17,6 +18,7 @@ class OptionGroup(
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "option_group_id", referencedColumnName = "id", nullable = true)
     @OrderBy(value = "sort_position ASC")
+    @Where(clause="active = true")
     var optionItems: MutableList<OptionItem> = mutableListOf()
 
 ) : BaseEntity()

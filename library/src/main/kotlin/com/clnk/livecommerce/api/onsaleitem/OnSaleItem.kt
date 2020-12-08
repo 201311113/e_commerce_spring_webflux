@@ -14,9 +14,9 @@ data class OnSaleItem(
     var sellPrice: BigDecimal,
     var stock: Int,
     @Lob
-    var description: String,
-    var startedAt: Instant?,
-    var endedAt: Instant?,
+    var description: String? = null,
+    var startedAt: Instant?= null,
+    var endedAt: Instant?= null,
     var hashTags: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)

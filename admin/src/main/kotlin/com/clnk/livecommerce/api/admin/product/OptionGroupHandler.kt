@@ -46,7 +46,7 @@ class OptionGroupHandler(
     }
 
     suspend fun findById(request: ServerRequest): ServerResponse {
-        log.info { "]-----] OptionGroupHandler::findAllByOptionGroupId call [-----[ " }
+        log.info { "]-----] OptionGroupHandler::findById call [-----[ " }
         val id = request.pathVariable("id").toLong()
         return optionGroupService.findById(id).let {
             ok().contentType(APPLICATION_JSON).bodyValueAndAwait(it)
@@ -54,11 +54,20 @@ class OptionGroupHandler(
     }
 
     suspend fun update(request: ServerRequest): ServerResponse {
-        log.info { "]-----] OptionGroupHandler::create call [-----[ " }
+        log.info { "]-----] OptionGroupHandler::update call [-----[ " }
         val id = request.pathVariable("id").toLong()
         val req = request.awaitBody<UpdateOptionReq>()
         val adminId = request.awaitPrincipal()!!.name.toLong()
         return optionGroupService.update(id, req, adminId).let {
+            ok().contentType(APPLICATION_JSON).bodyValueAndAwait(it)
+        }
+    }
+
+    suspend fun delete(request: ServerRequest): ServerResponse {
+        log.info { "]-----] OptionGroupHandler::delete call [-----[ " }
+        val id = request.pathVariable("id").toLong()
+        val adminId = request.awaitPrincipal()!!.name.toLong()
+        return optionGroupService.delete(id,adminId).let {
             ok().contentType(APPLICATION_JSON).bodyValueAndAwait(it)
         }
     }

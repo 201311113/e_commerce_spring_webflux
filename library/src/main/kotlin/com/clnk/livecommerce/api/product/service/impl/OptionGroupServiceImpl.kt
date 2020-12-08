@@ -35,7 +35,7 @@ class OptionGroupServiceImpl(
 
     @Transactional(readOnly = true)
     override fun findAllByProductId(productId: Long): OptionGroupListRes {
-        val items = optionGroupRepository.findAllByProductIdAndActive(productId, true)
+        val items = optionGroupRepository.findAllByProductIdAndActiveOrderBySortPositionAscIdDesc(productId, true)
         return OptionGroupListRes(
             content = items.map {
                 modelMapper.map(it, OptionGroupRes::class.java)
@@ -106,6 +106,15 @@ class OptionGroupServiceImpl(
             CreateOptionRes(-1)
         }
 
+    }
+
+    @Transactional
+    override fun delete(id: Long, adminId: Long): CreateOptionRes {
+        val optionGroup = optionGroupRepository.findByIdAndActive(id, true)
+            ?: throw EntityNotFoundException("not found a OptionGroups(id = ${id})")
+        optionGroup.active = false
+        optionGroupRepository.save(optionGroup)
+        return CreateOptionRes(-1)
     }
 
 }

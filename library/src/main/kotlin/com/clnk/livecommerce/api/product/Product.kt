@@ -3,6 +3,7 @@ package com.clnk.livecommerce.api.product
 import com.clnk.livecommerce.api.media.Media
 import com.clnk.livecommerce.api.model.BaseEntity
 import org.apache.commons.lang3.RandomStringUtils
+import org.hibernate.annotations.Where
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -25,6 +26,7 @@ class Product(
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "product_id", nullable = true, insertable = false, updatable = false)
     @OrderBy(value = "sort_position ASC, id DESC")
+    @Where(clause="active = true")
     var optionGroups: MutableList<OptionGroup> = mutableListOf()
 
 ) : BaseEntity()

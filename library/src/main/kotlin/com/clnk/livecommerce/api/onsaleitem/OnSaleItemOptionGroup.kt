@@ -17,6 +17,6 @@ class OnSaleItemOptionGroup(
 
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(name = "option_group_id", referencedColumnName = "id", nullable = true)
-    var options: MutableList<OnSaleItemOption> = mutableListOf()
+    var onSaleItemOptions: MutableList<OnSaleItemOption> = mutableListOf()
 
 ) : BaseEntity()
