@@ -18,8 +18,8 @@ class OptionServiceImpl(
 ) : OptionService {
     @Transactional(readOnly = true)
     override fun findById(id: Long): OptionItemRes {
-        val item = optionItemRepository.findByIdAndActive(id, true)
-        return modelMapper.map(item, OptionItemRes::class.java)
+        val optionItem = optionItemRepository.findByIdAndActive(id, true)
+        return modelMapper.map(optionItem, OptionItemRes::class.java)
     }
 
 }

@@ -70,6 +70,13 @@ class ProductHandler(
     private fun mapToReq(multipartMap: MultiValueMap<String, Part>): CreateProductReq {
         log.debug { "]-----] ProductHandler::create mapToReq [-----[ ${multipartMap}" }
         val partMap: Map<String, Part> = multipartMap.toSingleValueMap()
+        var brandId: Long = -1
+        if (partMap.containsKey("brandId")) {
+            brandId = (partMap["brandId"] as FormFieldPart).value().toLong()
+        } else {
+            throw ProductException(ErrorMessageCode.PRODUCT_NAME_REQUIRED)
+        }
+
         var name: String = ""
         if (partMap.containsKey("name")) {
             name = (partMap["name"] as FormFieldPart).value()
@@ -133,7 +140,8 @@ class ProductHandler(
             description = description,
             updatedImages = updatedImages,
             newImages = newImages,
-            deletedImages = deletedImages
+            deletedImages = deletedImages,
+            brandId = brandId
         )
     }
 }

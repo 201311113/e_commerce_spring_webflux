@@ -10,6 +10,7 @@ data class CreateProductReq(
     @get:NotBlank
     var name: String,
     var description: String,
+    var brandId: Long,
     var updatedImages: MutableList<MediaReq> = mutableListOf(),
     var newImages: MutableList<ProductMediaReq> = mutableListOf(),
     var deletedImages: MutableList<Long> = mutableListOf()
@@ -38,8 +39,3 @@ data class ProductRes(
     var optionGroups: MutableList<OptionGroupRes> = mutableListOf(),
     var createdAt: Instant? = null
 )
-
-
-enum class ProductSearchCondition(val searchKey: String) {
-    NAME("name"), DESCRIPTION("description")
-}

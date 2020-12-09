@@ -1,5 +1,6 @@
 package com.clnk.livecommerce.api.product.service.impl
 
+import com.clnk.livecommerce.api.brand.repository.BrandRepository
 import com.clnk.livecommerce.api.infra.MediaUtils
 import com.clnk.livecommerce.api.media.Media
 import com.clnk.livecommerce.api.media.repository.MediaRepository
@@ -7,14 +8,12 @@ import com.clnk.livecommerce.api.product.*
 import com.clnk.livecommerce.api.product.repository.ProductRepository
 import com.clnk.livecommerce.api.product.service.ProductService
 import mu.KotlinLogging
-import org.apache.commons.lang3.EnumUtils
 import org.modelmapper.ModelMapper
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.MultiValueMap
-import java.util.*
 import javax.persistence.EntityNotFoundException
 
 private val log = KotlinLogging.logger {}
@@ -24,15 +23,19 @@ class ProductServiceImpl(
 
     private var productRepository: ProductRepository,
     private var mediaRepository: MediaRepository,
+    private var brandRepository: BrandRepository,
     private var modelMapper: ModelMapper,
     private var mediaUtils: MediaUtils,
 ) : ProductService {
     @Transactional
     override fun create(req: CreateProductReq, adminId: Long): CreateProductRes {
         log.info { "]-----] ProductServiceImpl::create CreateProductReq[-----[ ${req}" }
+        val brand = brandRepository.findByIdAndActive(req.brandId, true)
+            ?: throw EntityNotFoundException("not found a Brand(id = ${req.brandId})")
         val newProduct = Product(
             name = req.name,
-            description = req.description
+            description = req.description,
+            brand = brand
         )
         productRepository.save(newProduct)
         if (req.newImages.size > 0) {
@@ -58,8 +61,8 @@ class ProductServiceImpl(
 
     @Transactional(readOnly = true)
     override fun findAll(pageable: Pageable, queryParams: MultiValueMap<String, String>): Page<ProductListRes> {
-        val items = productRepository.findAllBySearch(pageable, queryParams)
-        return items.map {
+        val products = productRepository.findAllBySearch(pageable, queryParams)
+        return products.map {
             modelMapper.map(it, ProductListRes::class.java)
         }
     }

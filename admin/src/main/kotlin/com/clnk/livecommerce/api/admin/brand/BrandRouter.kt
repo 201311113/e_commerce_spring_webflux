@@ -1,4 +1,4 @@
-package com.clnk.livecommerce.api.admin.onsaleitem
+package com.clnk.livecommerce.api.admin.brand
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -6,11 +6,11 @@ import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.server.coRouter
 
 @Configuration
-class OnSaleItemRouter {
-    val basePath = "/admin/v1/onsaleitem"
+class BrandRouter {
+    val basePath = "/admin/v1/brand"
 
     @Bean
-    fun onSaleItemRoute(handler: OnSaleItemHandler) = coRouter {
+    fun brandRoute(handler: BrandHandler) = coRouter {
         path(basePath).nest {
             accept(MediaType.APPLICATION_JSON).nest {
                 POST("", handler::create)

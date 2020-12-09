@@ -35,9 +35,9 @@ class OptionGroupServiceImpl(
 
     @Transactional(readOnly = true)
     override fun findAllByProductId(productId: Long): OptionGroupListRes {
-        val items = optionGroupRepository.findAllByProductIdAndActiveOrderBySortPositionAscIdDesc(productId, true)
+        val optionGroups = optionGroupRepository.findAllByProductIdAndActiveOrderBySortPositionAscIdDesc(productId, true)
         return OptionGroupListRes(
-            content = items.map {
+            content = optionGroups.map {
                 modelMapper.map(it, OptionGroupRes::class.java)
             }.toMutableList()
         )
@@ -45,8 +45,8 @@ class OptionGroupServiceImpl(
 
     @Transactional(readOnly = true)
     override fun findById(id: Long): OptionGroupRes {
-        val item = optionGroupRepository.findByIdAndActive(id, true)
-        return modelMapper.map(item, OptionGroupRes::class.java)
+        val optionGroup = optionGroupRepository.findByIdAndActive(id, true)
+        return modelMapper.map(optionGroup, OptionGroupRes::class.java)
     }
 
     @Transactional
