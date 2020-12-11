@@ -32,9 +32,9 @@ class Product(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
-    val brand: Brand,
+    val brand: Brand
 
-    ) : BaseEntity()
+) : BaseEntity()
 
 
 enum class ProductSearchCondition(val searchKey: String) {

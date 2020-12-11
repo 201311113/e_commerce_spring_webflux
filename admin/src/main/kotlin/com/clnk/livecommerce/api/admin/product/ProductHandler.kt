@@ -74,7 +74,7 @@ class ProductHandler(
         if (partMap.containsKey("brandId")) {
             brandId = (partMap["brandId"] as FormFieldPart).value().toLong()
         } else {
-            throw ProductException(ErrorMessageCode.PRODUCT_NAME_REQUIRED)
+            throw ProductException(ErrorMessageCode.BRAND_REQUIRED)
         }
 
         var name: String = ""

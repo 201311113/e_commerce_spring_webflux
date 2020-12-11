@@ -1,5 +1,6 @@
 package com.clnk.livecommerce.api.product
 
+import com.clnk.livecommerce.api.brand.BrandRes
 import com.clnk.livecommerce.api.media.MediaReq
 import com.clnk.livecommerce.api.media.MediaRes
 import org.springframework.http.codec.multipart.FilePart
@@ -37,5 +38,6 @@ data class ProductRes(
     var description: String? = null,
     var medias: MutableList<MediaRes> = mutableListOf(),
     var optionGroups: MutableList<OptionGroupRes> = mutableListOf(),
-    var createdAt: Instant? = null
+    var createdAt: Instant? = null,
+    var brand: BrandRes? = null,
 )
