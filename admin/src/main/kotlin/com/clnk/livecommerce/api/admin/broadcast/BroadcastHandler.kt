@@ -1,11 +1,11 @@
-package com.clnk.livecommerce.api.admin.product
+package com.clnk.livecommerce.api.admin.broadcast
 
+import com.clnk.livecommerce.api.broadcast.BroadcastReq
+import com.clnk.livecommerce.api.broadcast.service.BroadcastService
+import com.clnk.livecommerce.api.exception.BroadcastException
 import com.clnk.livecommerce.api.exception.ErrorMessageCode
-import com.clnk.livecommerce.api.exception.ProductException
 import com.clnk.livecommerce.api.media.MediaReq
 import com.clnk.livecommerce.api.media.NewImage
-import com.clnk.livecommerce.api.product.CreateProductReq
-import com.clnk.livecommerce.api.product.service.ProductService
 import mu.KotlinLogging
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -17,23 +17,23 @@ import org.springframework.stereotype.Component
 import org.springframework.util.MultiValueMap
 import org.springframework.web.reactive.function.server.*
 import org.springframework.web.reactive.function.server.ServerResponse.ok
+import java.time.Instant
 import javax.validation.Validator
 
 private val log = KotlinLogging.logger {}
 
 @Component
-class ProductHandler(
-    private val productService: ProductService,
+class BroadcastHandler(
+    private val broadcastService: BroadcastService,
     private val validator: Validator
 ) {
-
     suspend fun create(request: ServerRequest): ServerResponse {
-        log.info { "]-----] ProductHandler::create call [-----[" }
+        log.info { "]-----] BroadcastHandler::create call [-----[" }
         val multipartMap = request.awaitMultipartData()
-        log.debug { "]-----] ProductHandler::create multipartMap [-----[ ${multipartMap}" }
+        log.debug { "]-----] BroadcastHandler::create multipartMap [-----[ ${multipartMap}" }
         val adminId = request.awaitPrincipal()!!.name.toLong()
         val req = mapToReq(multipartMap)
-        return productService.create(req, adminId).let {
+        return broadcastService.create(req, adminId).let {
             ok().contentType(APPLICATION_JSON).bodyValueAndAwait(it)
         }
 
@@ -43,14 +43,14 @@ class ProductHandler(
         val sort = Sort.by(Sort.Direction.DESC, "id")
         val page = if (request.queryParam("page").isPresent) request.queryParam("page").get().toInt() else 0
         val size = if (request.queryParam("size").isPresent) request.queryParam("size").get().toInt() else 10
-        return productService.findAll(PageRequest.of(page, size, sort), request.queryParams()).let {
+        return broadcastService.findAll(PageRequest.of(page, size, sort), request.queryParams()).let {
             ok().contentType(APPLICATION_JSON).bodyValueAndAwait(it)
         }
     }
 
     suspend fun findById(request: ServerRequest): ServerResponse {
         val id = request.pathVariable("id").toLong()
-        return productService.findById(id).let {
+        return broadcastService.findById(id).let {
             ok().contentType(APPLICATION_JSON).bodyValueAndAwait(it)
         }
     }
@@ -58,39 +58,68 @@ class ProductHandler(
     suspend fun update(request: ServerRequest): ServerResponse {
         val id = request.pathVariable("id").toLong()
         val multipartMap = request.awaitMultipartData()
-        log.debug { "]-----] ProductHandler::update multipartMap [-----[ ${multipartMap}" }
+        log.debug { "]-----] BroadcastHandler::update multipartMap [-----[ ${multipartMap}" }
         val adminId = request.awaitPrincipal()!!.name.toLong()
         val req = mapToReq(multipartMap)
-        return productService.update(id, req, adminId).let {
+        return broadcastService.update(id, req, adminId).let {
             ok().contentType(APPLICATION_JSON).bodyValueAndAwait(it)
         }
 
     }
 
-    private fun mapToReq(multipartMap: MultiValueMap<String, Part>): CreateProductReq {
-        log.debug { "]-----] ProductHandler::create mapToReq [-----[ ${multipartMap}" }
+    private fun mapToReq(multipartMap: MultiValueMap<String, Part>): BroadcastReq {
+        log.debug { "]-----] BroadcastHandler::create mapToReq [-----[ ${multipartMap}" }
         val partMap: Map<String, Part> = multipartMap.toSingleValueMap()
-        var brandId: Long = -1
-        if (partMap.containsKey("brandId")) {
-            brandId = (partMap["brandId"] as FormFieldPart).value().toLong()
+        var title: String = ""
+        if (partMap.containsKey("title")) {
+            title = (partMap["name"] as FormFieldPart).value()
+            if (title.isBlank()) throw BroadcastException(ErrorMessageCode.BROADCAST_TITLE_REQUIRED)
         } else {
-            throw ProductException(ErrorMessageCode.PRODUCT_BRAND_REQUIRED)
-        }
-
-        var name: String = ""
-        if (partMap.containsKey("name")) {
-            name = (partMap["name"] as FormFieldPart).value()
-            if (name.isBlank()) throw ProductException(ErrorMessageCode.PRODUCT_NAME_REQUIRED)
-        } else {
-            throw ProductException(ErrorMessageCode.PRODUCT_NAME_REQUIRED)
+            throw BroadcastException(ErrorMessageCode.BROADCAST_TITLE_REQUIRED)
         }
 
         var description: String = ""
         if (partMap.containsKey("description")) {
             description = (partMap["description"] as FormFieldPart).value()
-            if (description.isBlank()) throw ProductException(ErrorMessageCode.PRODUCT_DESCRIPTION_REQUIRED)
+            if (description.isBlank()) throw BroadcastException(ErrorMessageCode.BROADCAST_DESCRIPTION_REQUIRED)
         } else {
-            throw ProductException(ErrorMessageCode.PRODUCT_DESCRIPTION_REQUIRED)
+            throw BroadcastException(ErrorMessageCode.BROADCAST_DESCRIPTION_REQUIRED)
+        }
+
+        var startAt: Instant
+        if (partMap.containsKey("startAt")) {
+            val startAtStr = (partMap["startAt"] as FormFieldPart).value()
+            startAt = Instant.parse(startAtStr)
+            if (startAtStr.isBlank()) throw BroadcastException(ErrorMessageCode.BROADCAST_STARTAT_REQUIRED)
+        } else {
+            throw BroadcastException(ErrorMessageCode.BROADCAST_STARTAT_REQUIRED)
+        }
+
+        var endAt: Instant
+        if (partMap.containsKey("endAt")) {
+            val endAtStr = (partMap["endAt"] as FormFieldPart).value()
+            endAt = Instant.parse(endAtStr)
+            if (endAtStr.isBlank()) throw BroadcastException(ErrorMessageCode.BROADCAST_ENDAT_REQUIRED)
+        } else {
+            throw BroadcastException(ErrorMessageCode.BROADCAST_ENDAT_REQUIRED)
+        }
+
+        var onSaleItemIds: MutableList<Long>
+        if (partMap.containsKey("onSaleItemIds")) {
+            val onSaleItemIdsStr = (partMap["onSaleItemIds"] as FormFieldPart).value()
+            if (onSaleItemIdsStr.isBlank()) throw BroadcastException(ErrorMessageCode.BROADCAST_ONSALEITEMS_REQUIRED)
+            onSaleItemIds = onSaleItemIdsStr.split(",").map { it.toLong() }.toMutableList()
+        } else {
+            throw BroadcastException(ErrorMessageCode.BROADCAST_ONSALEITEMS_REQUIRED)
+        }
+
+        var deletedOnSaleItemIds: MutableList<Long>
+        if (partMap.containsKey("deletedOnSaleItemIds")) {
+            val deletedOnSaleItemIdsStr = (partMap["deletedOnSaleItemIds"] as FormFieldPart).value()
+            if (deletedOnSaleItemIdsStr.isBlank()) throw BroadcastException(ErrorMessageCode.BROADCAST_ONSALEITEMS_REQUIRED)
+            deletedOnSaleItemIds = deletedOnSaleItemIdsStr.split(",").map { it.toLong() }.toMutableList()
+        } else {
+            throw BroadcastException(ErrorMessageCode.BROADCAST_ONSALEITEMS_REQUIRED)
         }
 
         val updatedImages: MutableList<MediaReq> = mutableListOf()
@@ -98,7 +127,7 @@ class ProductHandler(
 
         if (partMap.containsKey("imageCount")) {
             val imageCount = (partMap["imageCount"] as FormFieldPart).value().toInt()
-            if (imageCount < 0) throw ProductException(ErrorMessageCode.PRODUCT_IMAGE_REQUIRED)
+            if (imageCount < 0) throw BroadcastException(ErrorMessageCode.PRODUCT_IMAGE_REQUIRED)
             for (i in 0 until imageCount) {
                 val mediaId = (partMap["image[$i].id"] as FormFieldPart).value()
                 val imagePart = partMap["image[$i]"]
@@ -120,7 +149,7 @@ class ProductHandler(
 
             }
         } else {
-            throw ProductException(ErrorMessageCode.PRODUCT_IMAGE_REQUIRED)
+            throw BroadcastException(ErrorMessageCode.PRODUCT_IMAGE_REQUIRED)
         }
 
         val deletedImages: MutableList<Long> = mutableListOf()
@@ -135,13 +164,16 @@ class ProductHandler(
                 }
             }
         }
-        return CreateProductReq(
-            name = name,
+        return BroadcastReq(
+            title = title,
             description = description,
+            startAt = startAt,
+            endAt = endAt,
+            onSaleItemIds = onSaleItemIds,
+            deletedOnSaleItemIds = deletedOnSaleItemIds,
             updatedImages = updatedImages,
             newImages = newImages,
-            deletedImages = deletedImages,
-            brandId = brandId
+            deletedImages = deletedImages
         )
     }
 }

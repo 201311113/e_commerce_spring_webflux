@@ -41,7 +41,7 @@ class ProductServiceImpl(
         if (req.newImages.size > 0) {
             val medias: MutableList<Media> = mutableListOf()
             for (i in req.newImages.indices) {
-                val mediaInfo = req.newImages[i].productImage?.let { mediaUtils.getMediaInfo(it, "product") }
+                val mediaInfo = req.newImages[i].newImage?.let { mediaUtils.getMediaInfo(it, "product") }
                 val newMedia = Media(
                     mediaUuid = newProduct.mediaUuid,
                     url = mediaInfo!!.fullPath,
@@ -85,7 +85,7 @@ class ProductServiceImpl(
         if (req.newImages.size > 0) {
             val medias: MutableList<Media> = mutableListOf()
             for (i in req.newImages.indices) {
-                val mediaInfo = req.newImages[i].productImage?.let { mediaUtils.getMediaInfo(it, "product") }
+                val mediaInfo = req.newImages[i].newImage?.let { mediaUtils.getMediaInfo(it, "product") }
                 val newMedia = Media(
                     mediaUuid = product.mediaUuid,
                     url = mediaInfo!!.fullPath,

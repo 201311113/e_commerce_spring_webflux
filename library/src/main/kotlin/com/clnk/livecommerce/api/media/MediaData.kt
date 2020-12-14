@@ -24,6 +24,10 @@ data class MediaReq(
     var sortPosition: Int = 0
 )
 
+data class NewImage(
+    var newImage: FilePart? = null,
+    var sortPosition: Int = 0
+)
 
 
 

@@ -3,7 +3,7 @@ package com.clnk.livecommerce.api.product
 import com.clnk.livecommerce.api.brand.BrandRes
 import com.clnk.livecommerce.api.media.MediaReq
 import com.clnk.livecommerce.api.media.MediaRes
-import org.springframework.http.codec.multipart.FilePart
+import com.clnk.livecommerce.api.media.NewImage
 import java.time.Instant
 import javax.validation.constraints.NotBlank
 
@@ -13,14 +13,14 @@ data class CreateProductReq(
     var description: String,
     var brandId: Long,
     var updatedImages: MutableList<MediaReq> = mutableListOf(),
-    var newImages: MutableList<ProductMediaReq> = mutableListOf(),
+    var newImages: MutableList<NewImage> = mutableListOf(),
     var deletedImages: MutableList<Long> = mutableListOf()
 )
-
-data class ProductMediaReq(
-    var productImage: FilePart? = null,
-    var sortPosition: Int = 0
-)
+//
+//data class ProductMediaReq(
+//    var productImage: FilePart? = null,
+//    var sortPosition: Int = 0
+//)
 
 data class CreateProductRes(var id: Long = -1)
 

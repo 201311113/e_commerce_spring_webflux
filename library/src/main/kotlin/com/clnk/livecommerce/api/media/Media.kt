@@ -6,7 +6,7 @@ import javax.persistence.Entity
 
 @Entity
 class Media(
-    @Column(name = "media_uuid", length = 36)
+    @Column(name = "media_uuid", length = 24)
     var mediaUuid: String,
     var url: String,
     var isDefault: Boolean = false,

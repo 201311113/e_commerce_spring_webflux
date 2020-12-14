@@ -18,8 +18,14 @@ enum class ErrorMessageCode(val code: String, val message: String) {
     PRODUCT_NAME_REQUIRED("1501", "product name required"),
     PRODUCT_DESCRIPTION_REQUIRED("1502", "product description required"),
     PRODUCT_IMAGE_REQUIRED("1503", "product image required"),
-    FILE_NOT_FOUND("1503", "file not found"),
-    BRAND_REQUIRED("1504", "brand required"),
+    PRODUCT_BRAND_REQUIRED("1504", "brand required"),
+    FILE_NOT_FOUND("1505", "file not found"),
+
+    BROADCAST_TITLE_REQUIRED("1600", "broadcast title required"),
+    BROADCAST_DESCRIPTION_REQUIRED("1601", "broadcast description required"),
+    BROADCAST_STARTAT_REQUIRED("1601", "broadcast startat required"),
+    BROADCAST_ENDAT_REQUIRED("1601", "broadcast endat required"),
+    BROADCAST_ONSALEITEMS_REQUIRED("1601", "broadcast onsaleitems required"),
 
 
     ORDER_PRICE_NOT_ALLOWED("2001", "Order Price Not Allowed"),

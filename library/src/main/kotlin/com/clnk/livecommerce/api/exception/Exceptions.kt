@@ -13,6 +13,7 @@ class SignupException(errorMessageCode: ErrorMessageCode) : ApplicationException
 class SigninException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
 class ProductException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
 class MediaUtilsException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
+class BroadcastException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
 
 class OrderException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
 
