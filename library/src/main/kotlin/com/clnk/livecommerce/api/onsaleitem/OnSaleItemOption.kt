@@ -15,9 +15,11 @@ class OnSaleItemOption(
     var stock: Int,
 
     @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "on_sale_item_option_group_id")
     var onSaleItemOptionGroup: OnSaleItemOptionGroup,
 
     @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "option_item_id")
     var optionItem: OptionItem
 
 ) : BaseEntity()

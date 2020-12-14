@@ -78,6 +78,7 @@ class OnSaleItemServiceImpl(
     override fun findById(id: Long, adminId: Long): OnSaleItemRes {
         val onSaleItem = onSaleItemRepository.findByIdAndActive(id, true)
             ?: throw EntityNotFoundException("not found a OnSaleItem(id = ${id})")
+        log.debug { "]-----] OnSaleItemServiceImpl::update onSaleItem[-----[ ${onSaleItem.onSaleItemOptionGroups}" }
         return modelMapper.map(onSaleItem, OnSaleItemRes::class.java)
     }
 
@@ -94,12 +95,14 @@ class OnSaleItemServiceImpl(
         log.info { "]-----] OnSaleItemServiceImpl::update CreateProductReq[-----[ ${req}" }
         val onSaleItem = onSaleItemRepository.findByIdAndActive(id, true)
             ?: throw EntityNotFoundException("not found a OnSaleItem(id = ${id})")
-
+//        log.debug { "]-----] OnSaleItemServiceImpl::update onSaleItem[-----[ ${onSaleItem}" }
         onSaleItem.title = req.title
         onSaleItem.sellPrice = req.sellPrice
         onSaleItem.stock = req.stock
         onSaleItem.description = req.description
         onSaleItem.hashTags = req.hashTags
+        onSaleItem.deliveryPrice = req.deliveryPrice
+        onSaleItem.isGroupdelivery = req.isGroupdelivery
         onSaleItemRepository.save(onSaleItem)
 
         if (req.onSaleItemOptionGroups.size > 0) {

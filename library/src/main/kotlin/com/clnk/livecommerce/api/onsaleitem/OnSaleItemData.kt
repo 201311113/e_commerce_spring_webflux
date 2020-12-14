@@ -43,8 +43,8 @@ data class OnSaleItemRes(
     var description: String? = null,
     var hashTags: String? = null,
     var product: ProductResForOnSaleItem? = null,
-    var deliveryPrice: BigDecimal,
-    var isGroupdelivery: Boolean,
+    var deliveryPrice: BigDecimal? = null,
+    var isGroupdelivery: Boolean? = null,
     var onSaleItemOptionGroups: MutableList<OnSaleItemOptionGroupRes> = mutableListOf()
 )
 
@@ -56,8 +56,8 @@ data class OnSaleItemResForList(
     var description: String? = null,
     var hashTags: String? = null,
     var product: ProductResForOnSaleItem? = null,
-    var deliveryPrice: BigDecimal,
-    var isGroupdelivery: Boolean
+    var deliveryPrice: BigDecimal? = null,
+    var isGroupdelivery: Boolean? = null
 )
 
 data class ProductResForOnSaleItem(
