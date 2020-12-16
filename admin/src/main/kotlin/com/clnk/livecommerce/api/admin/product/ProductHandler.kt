@@ -128,9 +128,9 @@ class ProductHandler(
             val deletedImagesMap = multipartMap["deletedImages"]
             if (deletedImagesMap!!.size > 0) {
                 deletedImagesMap.map {
-                    val careerContent = (it as FormFieldPart).value()
-                    if (careerContent.isNotBlank()) {
-                        deletedImages.add(careerContent.toLong())
+                    val deletedImage = (it as FormFieldPart).value()
+                    if (deletedImage.isNotBlank()) {
+                        deletedImages.add(deletedImage.toLong())
                     }
                 }
             }

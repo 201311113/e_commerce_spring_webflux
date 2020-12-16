@@ -17,4 +17,10 @@ class AuthHandler() {
         return ok().contentType(APPLICATION_JSON).bodyValueAndAwait("Hello World")
 
     }
+
+    suspend fun isAuth(request: ServerRequest): ServerResponse {
+        log.debug { "]-----] AuthHandler::isAuth [-----[ call " }
+        return ok().contentType(APPLICATION_JSON).bodyValueAndAwait("isAuth")
+
+    }
 }

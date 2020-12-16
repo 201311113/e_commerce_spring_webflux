@@ -12,6 +12,7 @@ class AuthRouter {
     fun authRoute(handler: AuthHandler) = coRouter {
         path(basePath).nest {
             GET("/signin", handler::signin)
+            GET("/isauth", handler::isAuth)
         }
     }
 }

@@ -72,7 +72,7 @@ class BroadcastHandler(
         val partMap: Map<String, Part> = multipartMap.toSingleValueMap()
         var title: String = ""
         if (partMap.containsKey("title")) {
-            title = (partMap["name"] as FormFieldPart).value()
+            title = (partMap["title"] as FormFieldPart).value()
             if (title.isBlank()) throw BroadcastException(ErrorMessageCode.BROADCAST_TITLE_REQUIRED)
         } else {
             throw BroadcastException(ErrorMessageCode.BROADCAST_TITLE_REQUIRED)
@@ -104,23 +104,32 @@ class BroadcastHandler(
             throw BroadcastException(ErrorMessageCode.BROADCAST_ENDAT_REQUIRED)
         }
 
-        var onSaleItemIds: MutableList<Long>
-        if (partMap.containsKey("onSaleItemIds")) {
-            val onSaleItemIdsStr = (partMap["onSaleItemIds"] as FormFieldPart).value()
-            if (onSaleItemIdsStr.isBlank()) throw BroadcastException(ErrorMessageCode.BROADCAST_ONSALEITEMS_REQUIRED)
-            onSaleItemIds = onSaleItemIdsStr.split(",").map { it.toLong() }.toMutableList()
-        } else {
-            throw BroadcastException(ErrorMessageCode.BROADCAST_ONSALEITEMS_REQUIRED)
+        var onSaleItemIds: MutableList<Long> = mutableListOf()
+        if (multipartMap.containsKey("onSaleItemId")) {
+            val onSaleItemIdsMap = multipartMap["onSaleItemId"]
+            if (onSaleItemIdsMap!!.size > 0) {
+                onSaleItemIdsMap.map {
+                    val onSaleItemId = (it as FormFieldPart).value()
+                    if (onSaleItemId.isNotBlank()) {
+                        onSaleItemIds.add(onSaleItemId.toLong())
+                    }
+                }
+            }
         }
 
-        var deletedOnSaleItemIds: MutableList<Long>
-        if (partMap.containsKey("deletedOnSaleItemIds")) {
-            val deletedOnSaleItemIdsStr = (partMap["deletedOnSaleItemIds"] as FormFieldPart).value()
-            if (deletedOnSaleItemIdsStr.isBlank()) throw BroadcastException(ErrorMessageCode.BROADCAST_ONSALEITEMS_REQUIRED)
-            deletedOnSaleItemIds = deletedOnSaleItemIdsStr.split(",").map { it.toLong() }.toMutableList()
-        } else {
-            throw BroadcastException(ErrorMessageCode.BROADCAST_ONSALEITEMS_REQUIRED)
+        var deletedOnSaleItemIds: MutableList<Long> = mutableListOf()
+        if (multipartMap.containsKey("deletedOnSaleItemId")) {
+            val deletedOnSaleItemIdsMap = multipartMap["deletedOnSaleItemId"]
+            if (deletedOnSaleItemIdsMap!!.size > 0) {
+                deletedOnSaleItemIdsMap.map {
+                    val deletedOnSaleItemId = (it as FormFieldPart).value()
+                    if (deletedOnSaleItemId.isNotBlank()) {
+                        deletedOnSaleItemIds.add(deletedOnSaleItemId.toLong())
+                    }
+                }
+            }
         }
+
 
         val updatedImages: MutableList<MediaReq> = mutableListOf()
         val newImages: MutableList<NewImage> = mutableListOf()
@@ -157,13 +166,14 @@ class BroadcastHandler(
             val deletedImagesMap = multipartMap["deletedImages"]
             if (deletedImagesMap!!.size > 0) {
                 deletedImagesMap.map {
-                    val careerContent = (it as FormFieldPart).value()
-                    if (careerContent.isNotBlank()) {
-                        deletedImages.add(careerContent.toLong())
+                    val deletedImage = (it as FormFieldPart).value()
+                    if (deletedImage.isNotBlank()) {
+                        deletedImages.add(deletedImage.toLong())
                     }
                 }
             }
         }
+
         return BroadcastReq(
             title = title,
             description = description,
