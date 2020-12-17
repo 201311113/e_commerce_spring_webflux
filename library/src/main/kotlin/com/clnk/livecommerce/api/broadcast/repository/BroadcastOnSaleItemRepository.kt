@@ -15,6 +15,6 @@ interface BroadcastOnSaleItemRepository : JpaRepository<BroadcastOnSaleItem, Lon
 
     @Transactional
     @Modifying
-    @Query(value = "delete from BroadcastOnSaleItem where id in (:deletes) and broadcast.id = :broadcastId")
+    @Query(value = "delete from BroadcastOnSaleItem where onSaleItem.id in (:deletes) and broadcast.id = :broadcastId")
     fun deleteByIds(@Param("deletes") deletes: List<Long>, @Param("broadcastId") broadcastId: Long)
 }

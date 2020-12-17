@@ -30,7 +30,7 @@ class BroadcastServiceImpl(
 ) : BroadcastService {
     @Transactional
     override fun create(req: BroadcastReq, adminId: Long): CreateBroadcastRes {
-        log.info { "]-----] BroadcastServiceImpl::create CreateBroadcastReq[-----[ ${req}" }
+        log.info { "]-----] BroadcastServiceImpl::create CreateBroadcastReq [-----[ ${req}" }
         val newBroadcast = Broadcast(
             title = req.title,
             description = req.description,
@@ -92,6 +92,9 @@ class BroadcastServiceImpl(
         broadcast.startAt = req.startAt
         broadcast.endAt = req.endAt
         broadcastRepository.save(broadcast)
+        if (req.deletedOnSaleItemIds.size > 0) {
+            broadcastOnSaleItemRepository.deleteByIds(req.deletedOnSaleItemIds, broadcast.id!!)
+        }
         if (req.onSaleItemIds.size > 0) {
             val onSaleItems: MutableList<BroadcastOnSaleItem> = mutableListOf()
             for (k in req.onSaleItemIds.indices) {
@@ -101,9 +104,6 @@ class BroadcastServiceImpl(
                 onSaleItems.add(newBroadcastOnSaleItem)
             }
             broadcastOnSaleItemRepository.saveAll(onSaleItems)
-        }
-        if (req.deletedOnSaleItemIds.size > 0) {
-            broadcastOnSaleItemRepository.deleteByIds(req.deletedOnSaleItemIds, broadcast.id!!)
         }
 
         if (req.newImages.size > 0) {

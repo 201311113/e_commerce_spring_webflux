@@ -29,8 +29,8 @@ class Broadcast(
     var medias: MutableList<Media> = mutableListOf(),
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = true, insertable = false, updatable = false)
-    @OrderBy(value = "sort_position ASC, id DESC")
+    @JoinColumn(name = "broadcast_id", insertable = false, updatable = false)
+    @OrderBy(value = "id DESC")
     @Where(clause = "active = true")
     var onSaleItems: MutableList<BroadcastOnSaleItem> = mutableListOf()
 

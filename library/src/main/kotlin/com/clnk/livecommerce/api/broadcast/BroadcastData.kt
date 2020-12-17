@@ -24,6 +24,7 @@ data class CreateBroadcastRes(
 
 data class BroadcastRes(
     var id: Long = -1,
+    var channelUuid: String? = null,
     var title: String? = null,
     var description: String? = null,
     var startAt: Instant? = null,
