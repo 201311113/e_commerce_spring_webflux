@@ -25,9 +25,9 @@ class SecurityConfig(private val jwrService: JWTService) {
     companion object {
         val EXCLUDED_PATHS = arrayOf(
             "/api/v1/auth/signup",
-            "/api/v1/category/**",
-            "/api/v1/item/**",
-            "/api/v1/sample/**",
+            "/api/v1/auth/signinsns",
+            "/api/v1/auth/isduplicated/snsid",
+            "/api/v1/auth/isduplicated/nickname",
         )
     }
 

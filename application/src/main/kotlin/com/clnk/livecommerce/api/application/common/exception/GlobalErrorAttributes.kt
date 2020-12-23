@@ -1,6 +1,6 @@
 package com.clnk.livecommerce.api.application.common.exception
 
-import com.clnk.livecommerce.api.exception.ApplicationException
+import com.clnk.livecommerce.api.library.exception.ApplicationException
 import com.fasterxml.jackson.databind.ObjectMapper
 import mu.KotlinLogging
 import org.springframework.boot.web.error.ErrorAttributeOptions
@@ -12,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.server.ServerWebExchange
 import java.util.*
 import kotlin.collections.LinkedHashMap
-import kotlin.reflect.typeOf
 
 private val log = KotlinLogging.logger {}
 
@@ -45,7 +44,7 @@ class GlobalErrorAttributes(
         errorAttributes["timestamp"] = Date()
         errorAttributes["path"] = request.path()
         if(message != null){
-            errorAttributes["message"] = message!!
+            errorAttributes["message"] = message
         }
         errorAttributes["status"] = status.value()
         errorAttributes["error"] = HttpStatus.valueOf(status.value()).reasonPhrase

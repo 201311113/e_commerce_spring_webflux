@@ -75,6 +75,8 @@ subprojects {
     }
 
     dependencies {
+        implementation("io.github.rybalkinsd:kohttp:0.12.0")
+        implementation("com.google.firebase:firebase-admin:7.1.0")
         implementation("com.amazonaws:aws-java-sdk-s3:1.11.862")
         implementation("org.springframework.boot:spring-boot-starter-validation")
         implementation("com.auth0:java-jwt:3.11.0")

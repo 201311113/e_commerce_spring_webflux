@@ -17,16 +17,20 @@ private val log = KotlinLogging.logger {}
 @Component
 class JWTService(@Value("\${jwt.secret}") val secret: String,
                  @Value("\${jwt.refresh}") val refresh: String) {
-    fun accessToken(username: String, expirationInMillis: Long, roles: Array<String>): String {
-        return generate(username, expirationInMillis, roles, secret)
+
+    private val FOUR_HOURS: Long = 1000 * 60 * 60 * 4
+    private val ONE_DAYS: Long = 1000 * 60 * 60 * 24
+
+    fun accessToken(username: String, roles: Array<String>): String {
+        return generate(username, FOUR_HOURS, roles, secret)
     }
 
     fun decodeAccessToken(accessToken: String): DecodedJWT {
         return decode(secret, accessToken)
     }
 
-    fun refreshToken(username: String, expirationInMillis: Long, roles: Array<String>): String {
-        return generate(username, expirationInMillis, roles, refresh)
+    fun refreshToken(username: String, roles: Array<String>): String {
+        return generate(username, ONE_DAYS, roles, refresh)
     }
 
     fun decodeRefreshToken(refreshToken: String): DecodedJWT {

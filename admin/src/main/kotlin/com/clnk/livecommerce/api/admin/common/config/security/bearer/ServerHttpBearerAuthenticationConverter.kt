@@ -20,7 +20,7 @@ class ServerHttpBearerAuthenticationConverter(private val jwtService: JWTService
         try {
             return@mono jwtService.getAuthentication(authHeader)
         } catch (e: Throwable) {
-            log.debug { "]-----] ServerHttpBearerAuthenticationConverter::convert.error [-----[ ${e}" }
+            log.debug { "]-----] Admin ServerHttpBearerAuthenticationConverter::convert.error [-----[ ${e}" }
             return@mono null
         }
     }

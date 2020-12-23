@@ -1,0 +1,7 @@
+package com.clnk.livecommerce.api.application.common.exception
+
+open class ApiException(val applicationErrorMessageCode: ApplicationErrorMessageCode) : RuntimeException(applicationErrorMessageCode.message)
+
+class DummyException(applicationErrorMessageCode: ApplicationErrorMessageCode) : ApiException(applicationErrorMessageCode)
+
+class SigninSnsException(applicationErrorMessageCode: ApplicationErrorMessageCode = ApplicationErrorMessageCode.SIGNIN_IS_NOT_ALLOWED) : ApiException(applicationErrorMessageCode)

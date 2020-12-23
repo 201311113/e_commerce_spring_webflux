@@ -1,5 +1,6 @@
 package com.clnk.livecommerce.api.product
 
+import com.clnk.livecommerce.api.library.product.ProductSearchCondition
 import mu.KotlinLogging
 import org.junit.jupiter.api.Test
 

@@ -1,11 +1,11 @@
 package com.clnk.livecommerce.api.admin.product
 
-import com.clnk.livecommerce.api.exception.ErrorMessageCode
-import com.clnk.livecommerce.api.exception.ProductException
-import com.clnk.livecommerce.api.media.MediaReq
-import com.clnk.livecommerce.api.media.NewImage
-import com.clnk.livecommerce.api.product.CreateProductReq
-import com.clnk.livecommerce.api.product.service.ProductService
+import com.clnk.livecommerce.api.library.exception.ErrorMessageCode
+import com.clnk.livecommerce.api.library.exception.ProductException
+import com.clnk.livecommerce.api.library.media.MediaReq
+import com.clnk.livecommerce.api.library.media.NewImage
+import com.clnk.livecommerce.api.library.product.CreateProductReq
+import com.clnk.livecommerce.api.library.product.service.ProductService
 import mu.KotlinLogging
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort

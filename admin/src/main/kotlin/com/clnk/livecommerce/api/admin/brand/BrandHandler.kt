@@ -1,7 +1,7 @@
 package com.clnk.livecommerce.api.admin.brand
 
-import com.clnk.livecommerce.api.brand.CreateBrandReq
-import com.clnk.livecommerce.api.brand.service.BrandService
+import com.clnk.livecommerce.api.library.brand.CreateBrandReq
+import com.clnk.livecommerce.api.library.brand.service.BrandService
 import mu.KotlinLogging
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort

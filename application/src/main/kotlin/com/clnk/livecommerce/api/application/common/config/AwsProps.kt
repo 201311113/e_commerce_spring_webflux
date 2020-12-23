@@ -1,6 +1,6 @@
 package com.clnk.livecommerce.api.application.common.config
 
-import com.clnk.livecommerce.api.config.AwsAttributes
+import com.clnk.livecommerce.api.library.config.AwsAttributes
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 

@@ -18,7 +18,9 @@ import org.springframework.web.reactive.config.WebFluxConfigurer
 class WebConfig : WebFluxConfigurer {
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/api/**")
-            .allowedOrigins("*")
+            .allowCredentials(false)
+            .allowedOriginPatterns("*")
+//            .allowedOrigins("*")
             .allowedMethods("*")
             .allowedHeaders(HttpHeaders.AUTHORIZATION, "JWT-Refresh-Token")
             .exposedHeaders(HttpHeaders.AUTHORIZATION, "JWT-Refresh-Token")
@@ -30,7 +32,7 @@ class WebConfig : WebFluxConfigurer {
     fun corsFilter(): CorsWebFilter {
         val config = CorsConfiguration()
         // config.applyPermitDefaultValues()
-        config.allowCredentials = true
+        config.allowCredentials = false
         config.addAllowedOrigin("*")
         config.addAllowedHeader("*")
         config.addAllowedMethod("*")

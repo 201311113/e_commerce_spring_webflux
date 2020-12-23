@@ -1,6 +1,6 @@
 package com.clnk.livecommerce.api.admin.common.config.security.basic
 
-import com.clnk.livecommerce.api.adminmember.repository.AdminMemberRepository
+import com.clnk.livecommerce.api.library.adminmember.repository.AdminMemberRepository
 import mu.KotlinLogging
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.core.authority.SimpleGrantedAuthority

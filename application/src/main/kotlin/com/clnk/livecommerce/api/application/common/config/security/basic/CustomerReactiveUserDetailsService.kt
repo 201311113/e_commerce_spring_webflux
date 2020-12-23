@@ -1,7 +1,7 @@
 package com.clnk.livecommerce.api.application.common.config.security.basic
 
-import com.clnk.livecommerce.api.member.SnsType
-import com.clnk.livecommerce.api.member.repository.MemberRepository
+import com.clnk.livecommerce.api.library.member.SnsType
+import com.clnk.livecommerce.api.library.member.repository.MemberRepository
 import mu.KotlinLogging
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.core.authority.SimpleGrantedAuthority

@@ -13,6 +13,8 @@ class AuthRouter {
         path(basePath).nest {
             POST("/signup", handler::signup)
             GET("/signin", handler::signin)
+            POST("/signinsns", handler::signinSns)
+            POST("/isduplicated/snsid", handler::duplicateCheckBySnsId)
         }
     }
 }

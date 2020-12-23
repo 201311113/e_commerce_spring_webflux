@@ -1,6 +1,6 @@
 package com.clnk.livecommerce.api.admin.common.exception
 
-import com.clnk.livecommerce.api.exception.ApplicationException
+import com.clnk.livecommerce.api.library.exception.ApplicationException
 import com.fasterxml.jackson.databind.ObjectMapper
 import mu.KotlinLogging
 import org.springframework.boot.web.error.ErrorAttributeOptions

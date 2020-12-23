@@ -1,9 +1,9 @@
 package com.clnk.livecommerce.api.admin.product
 
-import com.clnk.livecommerce.api.product.CreateOptionReq
-import com.clnk.livecommerce.api.product.UpdateOptionGroupSortReq
-import com.clnk.livecommerce.api.product.UpdateOptionReq
-import com.clnk.livecommerce.api.product.service.OptionGroupService
+import com.clnk.livecommerce.api.library.product.CreateOptionReq
+import com.clnk.livecommerce.api.library.product.UpdateOptionGroupSortReq
+import com.clnk.livecommerce.api.library.product.UpdateOptionReq
+import com.clnk.livecommerce.api.library.product.service.OptionGroupService
 import mu.KotlinLogging
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.stereotype.Component

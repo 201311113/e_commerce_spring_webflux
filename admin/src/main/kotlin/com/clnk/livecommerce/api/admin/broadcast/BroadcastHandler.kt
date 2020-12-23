@@ -1,11 +1,11 @@
 package com.clnk.livecommerce.api.admin.broadcast
 
-import com.clnk.livecommerce.api.broadcast.BroadcastReq
-import com.clnk.livecommerce.api.broadcast.service.BroadcastService
-import com.clnk.livecommerce.api.exception.BroadcastException
-import com.clnk.livecommerce.api.exception.ErrorMessageCode
-import com.clnk.livecommerce.api.media.MediaReq
-import com.clnk.livecommerce.api.media.NewImage
+import com.clnk.livecommerce.api.library.broadcast.BroadcastReq
+import com.clnk.livecommerce.api.library.broadcast.service.BroadcastService
+import com.clnk.livecommerce.api.library.exception.BroadcastException
+import com.clnk.livecommerce.api.library.exception.ErrorMessageCode
+import com.clnk.livecommerce.api.library.media.MediaReq
+import com.clnk.livecommerce.api.library.media.NewImage
 import mu.KotlinLogging
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort

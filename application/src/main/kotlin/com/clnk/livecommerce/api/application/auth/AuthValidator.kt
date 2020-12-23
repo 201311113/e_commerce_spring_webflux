@@ -1,6 +1,6 @@
 package com.clnk.livecommerce.api.application.auth
 
-import com.clnk.livecommerce.api.member.SignupReq
+import com.clnk.livecommerce.api.library.member.SignupReq
 import org.springframework.validation.Errors
 import org.springframework.validation.ValidationUtils
 import org.springframework.validation.Validator

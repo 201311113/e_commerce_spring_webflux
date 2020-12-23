@@ -1,6 +1,6 @@
 package com.clnk.livecommerce.api.admin.onsaleitem
 
-import com.clnk.livecommerce.api.onsaleitem.CreateOnSaleItemReq
+import com.clnk.livecommerce.api.library.onsaleitem.CreateOnSaleItemReq
 import com.clnk.livecommerce.api.onsaleitem.service.OnSaleItemService
 import mu.KotlinLogging
 import org.springframework.data.domain.PageRequest

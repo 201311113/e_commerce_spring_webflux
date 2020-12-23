@@ -1,11 +1,13 @@
 package com.clnk.livecommerce.api.application.auth
 
-import com.clnk.livecommerce.api.exception.ApiError
-import com.clnk.livecommerce.api.exception.ValueNotValidException
-import com.clnk.livecommerce.api.member.DuplicateCheckReq
-import com.clnk.livecommerce.api.member.SigninReq
-import com.clnk.livecommerce.api.member.SignupReq
-import com.clnk.livecommerce.api.member.service.MemberService
+import com.clnk.livecommerce.api.application.auth.service.AuthService
+import com.clnk.livecommerce.api.application.common.exception.SigninSnsException
+import com.clnk.livecommerce.api.library.exception.ApiError
+import com.clnk.livecommerce.api.library.exception.ValueNotValidException
+import com.clnk.livecommerce.api.library.member.DuplicateCheckReq
+import com.clnk.livecommerce.api.library.member.SigninSnsReq
+import com.clnk.livecommerce.api.library.member.SignupReq
+import com.clnk.livecommerce.api.library.member.service.MemberService
 import mu.KotlinLogging
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -22,6 +24,7 @@ private val log = KotlinLogging.logger {}
 @Component
 class AuthHandler(
     private val memberService: MemberService,
+    private val authService: AuthService,
     private val passwordEncoder: PasswordEncoder,
     private val validator: Validator
 ) {
@@ -35,15 +38,9 @@ class AuthHandler(
     }
 
     private fun validate(signupReq: SignupReq) {
-//        val errors: Errors = BeanPropertyBindingResult(signupReq, signupReq::class.simpleName as String);
         val result = validator.validate(signupReq)
-        log.debug { "]-----] AuthHandler::validate result [-----[ ${result}" }
-        log.debug { "]-----] AuthHandler::validate result [-----[ ${result.size}" }
         if (result.size > 0) {
             var bindErrors = result.map { valid -> ApiError(code = valid.propertyPath.toString(), message = valid.message) }
-//                .apply { errors = bindErrors }
-//            val exception = ValueNotValidException()
-//            exception.errors = bindErrors
             throw ValueNotValidException(bindErrors)
         }
     }
@@ -53,6 +50,20 @@ class AuthHandler(
 //        val signupReq = request.awaitBody<SigninReq>()
 //        validate(signupReq)
         return ok().contentType(APPLICATION_JSON).bodyValueAndAwait("Hello World")
+
+    }
+
+    suspend fun signinSns(request: ServerRequest): ServerResponse {
+        log.debug { "]-----] AuthHandler::signin [-----[ call " }
+        val signinReq = request.awaitBody<SigninSnsReq>()
+
+        return if (authService.verifyAccessToken(signinReq.snsToken, signinReq.snsType, signinReq.snsId)) {
+            val member = memberService.signinSns(signinReq)
+            ok().contentType(APPLICATION_JSON).bodyValueAndAwait(authService.getAccessToken(member.id!!))
+        } else {
+            throw SigninSnsException()
+        }
+
 
     }
 

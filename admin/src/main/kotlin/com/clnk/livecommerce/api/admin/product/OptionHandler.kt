@@ -1,6 +1,6 @@
 package com.clnk.livecommerce.api.admin.product
 
-import com.clnk.livecommerce.api.product.service.OptionService
+import com.clnk.livecommerce.api.library.product.service.OptionService
 import mu.KotlinLogging
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.stereotype.Component
