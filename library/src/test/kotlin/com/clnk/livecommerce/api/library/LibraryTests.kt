@@ -1,6 +1,8 @@
-package com.clnk.livecommerce.api
+package com.clnk.livecommerce.api.library
 
 import com.clnk.livecommerce.api.library.apistore.ApiStoreAttributes
+import com.clnk.livecommerce.api.library.config.AwsAttributes
+import com.clnk.livecommerce.api.library.firebase.FirebaseAttributes
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.SpringBootConfiguration
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -34,5 +36,19 @@ open class LibraryTests
 class ApiStoreProps(
     override val kakaoEndpoint: String = "http://api.apistore.co.kr/",
     override val appId: String = "clnkcompany",
-    override val apiKey: String = "01bfea901e090e7a34fc32bbd3bda17671cb8cc5"
+    override val apiKey: String = "ODk2Ni0xNTMyOTE3ODIzNTk4LTY3YzMyYTBlLWY5N2UtNGRkZi04MzJhLTBlZjk3ZTRkZGZlYg=="
 ): ApiStoreAttributes
+
+@TestConfiguration
+class AwsProps(
+    override val accessKey: String = "",
+    override val secretKey: String = "",
+    override val bucketName: String = "",
+    override val bucketUrl: String = "",
+    override val tempFilePath: String = ""
+) : AwsAttributes
+
+@TestConfiguration
+class FirebaseProps(
+    override val account: String = "BeautalkAccountKey.json"
+): FirebaseAttributes

@@ -73,7 +73,7 @@ data class SendAlimtalkReq(
     /** 수신할 핸드폰 번호 */
     var phone: String,
     /** 발신자 전화번호 */
-    var callback: String = "010-3098-2101",
+    var callback: String,
     /** 전송할 메세지 */
     var msg: String,
     /** 카카오 알림톡 템플릿 코드 */

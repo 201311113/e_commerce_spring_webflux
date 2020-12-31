@@ -9,10 +9,11 @@ class MemberCert(
     var memberId: Long? = null,
     var certPhoneNumber: String,
     var certNumber: String,
-    var requestedAt: Instant?,
-    var certedAt: Instant?
+    var statue: CertStatus = CertStatus.REQUEST,
+    var requestedAt: Instant,
+    var certedAt: Instant? = null,
 ) : BaseEntity()
 
 enum class CertStatus {
-    INIT, VERIFIED, EXPIRED
+    REQUEST, VERIFIED, EXPIRED
 }

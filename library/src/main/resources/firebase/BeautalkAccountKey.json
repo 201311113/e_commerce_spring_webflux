@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "beautalk-app",
+  "private_key_id": "aedef0ce937b29a11346ae453b1fe258f02c029d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCr1AC69DlMH1N6\nXHmYKxIIVmcLqknHjxF7pSWXby/EUTPnnSobsEOCvjgbLRy8rwVwDdkVsfQaRwdm\nBsYYx75iwH+JexPvvcWcyev/XrKu48uWF0vXmsWfBn8Ak3W8K4oGFbSLqsj4IXVI\nW80oAqZ+HnvAsKkfrzvc/7PSOItCla5Enlh32JiNZha/2KDMxmUarem6xwo5uJFm\nKsUNb4YREZk1nUHSelNZ+vInlXSGPIaAxnOPUhDYVNUa9B7Hlbx9FYN9BvNI+mwl\nwsyxLTnm095p51gcQ3n5/20K7pqzsoXjQblOrIvsLGRmUu+G1ArgNZ5KBmvSpK3V\n0HQK1m1nAgMBAAECggEAJOQG5hyiIphFLWumRYfVvsmCJSyB26D5UXETAZDDEiSW\n/r6s+DXfQLZDSH5mgZIYGkc22OQUcwHV8k84/7/+vafzmdo9XQcC4tctXm3/8fGB\nV6+XvmoBzNMxuDdwmx5D62uEkEnyDOfuDMN85/6trT0xN50WKnHOafPSMSunpnsu\ncMoQ3SS61qeby3ReTa/u0V6OrjapodkGc/ozqumcscuqKRmSWxiw8WlrksTDvf9o\nxaIs5ozpqvWZX0vYuEFCMmy2YKRo6E6S2XPbm+NpsqHL8UZxL3mM0Em0nUvjsA0v\nwFRKHC6ZQAfSqhRT1ZtTnUzHZbtj4P2XgkOjfb+AAQKBgQDxptodfBMXmmdigCoE\nQIoGTq1NYsfa1ahv/+yV+2g7li1X6ENnCuiKBlFh/Vq7mgAVyYER0uyZ616eNI6/\nGK/wDtBiKdHB3R+6KD6tvF0r1hLtOx/9NoIvBpkeHgnxTOkNyTS98Ny4IXFtq7Ue\nXIcpz2J18W2FwfKxpEyxt63tZwKBgQC2B9HdNRJ0uZD1T0fRvLpWRsvtxowHRc/9\npd+6Ae5DVNmvY8oH9ieT442GvKrhMM6PrnT6FtMLKhIlPESkbX/W+Iv7SKi5gloD\nw1+DZsMNvwj2S0EsoaQj/bcg1KGd5RMRXldslGiTumitbT8JVzf2BeRiQfe5a0jA\nINP44cOAAQKBgAf/Zq6dIaChWpSW+00Cuc61oeSyxTyH37g9Nx5LoMqAEOYc6MYr\nRUD0LpNYqD0XPrN55MyrN2tsr8f6o1LNxVzjkJ//FFMfN2KY3GIxnr/JqPyy/T8L\nI8ncpQqrIdcbnYb4RseWhieN68weZ7Mmis6mb3LJ178aiSa58lPbaWU3AoGBAJqH\nCuaBzlgey+sj0XFAiOMDGM2Sln76CfZm4QVT7ENmfaHB0dluYuzN6PAvq9SdjU02\nKYHA7In2vg60GgWIG1WQC61XYjyRZv741VWEYCOEQARtoDdWRTR0hwis2UJkHArL\njuXTGvAF+CT5r+CrFQuatuWe4MCcTdckRy5p4YABAoGBANZzd8M5DJZMb6+3U4Qy\nhvFXZlWfjwmbaul7Jvi6tXVDMq3DEVZNNlqYrDIDDr8V1RbDPCRwAtJ1vHcVg2X0\n/aQwaJosY/jzDwS5mGX9VEtRBluxr4cl8/YCbHKMWVXk2p4TkHOal+kEsg4XAkhf\nvB8CmCChLiiCU/mmaB7mh8Ha\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-6dcrb@beautalk-app.iam.gserviceaccount.com",
+  "client_id": "109540846396650957998",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-6dcrb%40beautalk-app.iam.gserviceaccount.com"
+}

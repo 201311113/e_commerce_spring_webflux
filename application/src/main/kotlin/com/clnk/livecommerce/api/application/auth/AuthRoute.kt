@@ -11,10 +11,13 @@ class AuthRouter {
     @Bean
     fun authRoute(handler: AuthHandler) = coRouter {
         path(basePath).nest {
-            POST("/signup", handler::signup)
+            POST("/signup", handler::signupFirebaseEmail)
             GET("/signin", handler::signin)
             POST("/signinsns", handler::signinSns)
             POST("/isduplicated/snsid", handler::duplicateCheckBySnsId)
+            POST("/isduplicated/nickname", handler::duplicateCheckByNickName)
+            POST("/verify/phonenumber/send", handler::sendVerifyCode)
+            POST("/verify/phonenumber", handler::verifyCode)
         }
     }
 }

@@ -1,10 +1,10 @@
-package com.clnk.livecommerce.api.product
+package com.clnk.livecommerce.api.library.product
 
-import com.clnk.livecommerce.api.library.product.ProductSearchCondition
 import mu.KotlinLogging
 import org.junit.jupiter.api.Test
 
 private val logger = KotlinLogging.logger {}
+
 internal class SearchProductConditionTest {
 
     @Test

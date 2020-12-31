@@ -1,4 +1,4 @@
-package com.clnk.livecommerce.api.infra
+package com.clnk.livecommerce.api.library.infra
 
 import mu.KotlinLogging
 import org.apache.commons.lang3.RandomStringUtils

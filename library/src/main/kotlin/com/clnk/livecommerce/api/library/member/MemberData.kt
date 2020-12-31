@@ -24,6 +24,16 @@ data class SignupReq(
     var nickName: String,
 )
 
+data class SignupFirebaseEmailReq(
+    @get:Email
+    @get:NotBlank
+    var snsId: String,
+    @get:NotBlank
+    @get:Pattern(regexp = nickNameRegex)
+    var nickName: String,
+    var phoneNumber: String,
+)
+
 data class SignupRes(
     var id: Long = -1
 )
@@ -43,6 +53,12 @@ data class DuplicateCheckReq(
     @get:Email
     @get:NotBlank
     var snsId: String,
+
+    )
+
+data class DuplicateCheckNickNameReq(
+    @get:NotBlank
+    var nickName: String,
 )
 
 data class DuplicateCheckRes(
@@ -70,4 +86,3 @@ data class SigninSnsReq(
     var nickName: String? = "",
     var gender: Gender? = null
 )
-

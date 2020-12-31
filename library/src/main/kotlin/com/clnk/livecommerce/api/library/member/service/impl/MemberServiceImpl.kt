@@ -36,6 +36,17 @@ class MemberServiceImpl(
         return SignupRes(createMember(req.snsId, SnsType.EMAIL, null, req.password).id!!)
     }
 
+    @Transactional
+    override fun signupFirebaseEmail(req: SignupFirebaseEmailReq): SignupRes {
+        log.debug { "]-----] MemberServiceImpl::signupFirebaseEmail SignupFirebaseEmailReq[-----[ ${req}" }
+        val exists = memberRepository.findBySnsIdAndSnsTypeAndActive(req.snsId, SnsType.EMAIL, true)
+        if (exists != null) {
+            throw SignupException(ErrorMessageCode.SNSID_ALREADY_EXISTS)
+        }
+        return SignupRes(createMember(req.snsId, SnsType.EMAIL, null, null).id!!)
+    }
+
+    @Transactional
     override fun signinSns(req: SigninSnsReq): SignupRes {
         return memberRepository.findBySnsIdAndSnsTypeAndActive(req.snsId, req.snsType, true)?.let { SignupRes(it.id!!) }
             ?: SignupRes(createMember(req.snsId, req.snsType, req.snsToken, null).id!!)
@@ -45,6 +56,16 @@ class MemberServiceImpl(
     override fun duplicateCheckBySnsId(duplicateCheckReq: DuplicateCheckReq): DuplicateCheckRes {
         log.debug { "]-----] MemberServiceImpl::duplicateCheckBySnsId duplicateCheckReq[-----[ ${duplicateCheckReq}" }
         memberRepository.findBySnsIdAndSnsTypeAndActive(duplicateCheckReq.snsId, SnsType.EMAIL, true)
+            ?: return DuplicateCheckRes(isDuplicated = false)
+        return DuplicateCheckRes(
+            isDuplicated = true
+        )
+    }
+
+    @Transactional(readOnly = true)
+    override fun duplicateCheckByNickName(duplicateCheckNickNameReq: DuplicateCheckNickNameReq): DuplicateCheckRes {
+        log.debug { "]-----] MemberServiceImpl::duplicateCheckByNickName duplicateCheckReq[-----[ ${duplicateCheckNickNameReq}" }
+        memberRepository.findByNickNameAndActive(duplicateCheckNickNameReq.nickName, true)
             ?: return DuplicateCheckRes(isDuplicated = false)
         return DuplicateCheckRes(
             isDuplicated = true

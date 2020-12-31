@@ -29,7 +29,7 @@ interface AesAttributes {
     val secretKey: String
 }
 
-class Aes256Support(private val props: AesAttributes)
+class Aes256Support()
 
 object ChCrypto {
     @JvmStatic

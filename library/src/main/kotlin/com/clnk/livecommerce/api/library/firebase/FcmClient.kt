@@ -24,7 +24,7 @@ class FcmClient (@Autowired props: FirebaseAttributes) {
         val serviceAccount = TypeReference::class.java.getResourceAsStream("/firebase/${props.account}")
         val options = FirebaseOptions.builder()
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-            .setDatabaseUrl("https://kicksonapp.firebaseio.com")
+            .setDatabaseUrl("https://beautalk.firebaseio.com")
             .build()
         FirebaseApp.initializeApp(options)
     }
