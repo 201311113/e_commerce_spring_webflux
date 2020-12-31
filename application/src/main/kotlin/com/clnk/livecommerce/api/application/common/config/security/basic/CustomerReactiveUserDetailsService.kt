@@ -1,7 +1,7 @@
 package com.clnk.livecommerce.api.application.common.config.security.basic
 
 import com.clnk.livecommerce.api.library.member.SnsType
-import com.clnk.livecommerce.api.library.member.repository.MemberRepository
+import com.clnk.livecommerce.api.library.member.repository.MemberInfoRepository
 import mu.KotlinLogging
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -16,11 +16,11 @@ private val log = KotlinLogging.logger {}
 
 @Service
 class CustomerReactiveUserDetailsService(
-    private val memberRepository: MemberRepository
+    private val memberInfoRepository: MemberInfoRepository
 ) : ReactiveUserDetailsService {
     @Transactional(readOnly = true)
     override fun findByUsername(username: String?): Mono<UserDetails> {
-        val member = memberRepository.findBySnsIdAndSnsTypeAndActive(username!!, SnsType.EMAIL, true)
+        val member = memberInfoRepository.findBySnsIdAndSnsTypeAndActive(username!!, SnsType.EMAIL, true)
             ?: throw BadCredentialsException("Invalid Credentials")
         log.debug { "]-----] CustomerReactiveUserDetailsService::findByUsername.member[-----[ ${member}" }
         val authorities = member.roles.map { memberRole -> SimpleGrantedAuthority(memberRole.role.roleType.name) }

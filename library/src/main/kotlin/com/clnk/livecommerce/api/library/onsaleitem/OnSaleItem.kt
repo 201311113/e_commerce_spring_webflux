@@ -40,5 +40,5 @@ enum class ItemStatus {
 }
 
 enum class OnSaleItemSearchCondition(val searchKey: String) {
-    TITLE("title"), DESCRIPTION("description"), HASHTAGS("hashTags"), PRODUCTNAME("productname")
+    TITLE("title"), DESCRIPTION("description"), HASHTAGS("hashtags"), PRODUCTNAME("productname")
 }

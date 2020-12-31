@@ -25,7 +25,7 @@ class Address(
     var phoneNumber: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    var member: Member,
+    var member: MemberInfo,
 
     @Type(type = "yes_no")
     @Column(columnDefinition = "CHAR", length = 1, nullable = false)

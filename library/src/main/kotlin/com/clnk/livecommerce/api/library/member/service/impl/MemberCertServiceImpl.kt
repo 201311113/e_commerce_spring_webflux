@@ -3,7 +3,7 @@ package com.clnk.livecommerce.api.library.member.service.impl
 import com.clnk.livecommerce.api.library.infra.KakaoAlimSender
 import com.clnk.livecommerce.api.library.member.*
 import com.clnk.livecommerce.api.library.member.repository.MemberCertRepository
-import com.clnk.livecommerce.api.library.member.repository.MemberRepository
+import com.clnk.livecommerce.api.library.member.repository.MemberInfoRepository
 import com.clnk.livecommerce.api.library.member.service.MemberCertService
 import mu.KotlinLogging
 import org.apache.commons.lang3.RandomUtils
@@ -17,7 +17,7 @@ private val log = KotlinLogging.logger {}
 
 @Service
 class MemberCertServiceImpl(
-    private val memberRepository: MemberRepository,
+    private val memberInfoRepository: MemberInfoRepository,
     private val memberCertRepository: MemberCertRepository,
     private val kakaoAlimSender: KakaoAlimSender,
     private var modelMapper: ModelMapper

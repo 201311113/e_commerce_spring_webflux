@@ -4,11 +4,11 @@ import com.clnk.livecommerce.api.library.model.BaseEntity
 import javax.persistence.*
 
 @Entity
-@Table(uniqueConstraints = [UniqueConstraint(columnNames = ["member_id", "role_id"])])
+@Table(uniqueConstraints = [UniqueConstraint(columnNames = ["member_info_id", "role_id"])])
 class MemberRole(
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    var member: Member,
+    @JoinColumn(name = "member_info_id")
+    var memberInfo: MemberInfo,
 
     @ManyToOne
     @JoinColumn(name = "role_id")

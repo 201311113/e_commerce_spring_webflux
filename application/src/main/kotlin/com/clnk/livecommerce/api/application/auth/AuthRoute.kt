@@ -12,7 +12,7 @@ class AuthRouter {
     fun authRoute(handler: AuthHandler) = coRouter {
         path(basePath).nest {
             POST("/signup", handler::signupFirebaseEmail)
-            GET("/signin", handler::signin)
+            POST("/signin", handler::signin)
             POST("/signinsns", handler::signinSns)
             POST("/isduplicated/snsid", handler::duplicateCheckBySnsId)
             POST("/isduplicated/nickname", handler::duplicateCheckByNickName)

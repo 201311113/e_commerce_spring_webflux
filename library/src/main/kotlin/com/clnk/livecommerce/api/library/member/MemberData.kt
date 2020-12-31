@@ -32,10 +32,14 @@ data class SignupFirebaseEmailReq(
     @get:Pattern(regexp = nickNameRegex)
     var nickName: String,
     var phoneNumber: String,
+    var agreeService: Boolean = false,
+    var agreeSecurity: Boolean = false,
+    var agreeMarketing: Boolean = false,
 )
 
 data class SignupRes(
-    var id: Long = -1
+    var id: Long = -1,
+    var isCert: Boolean = false
 )
 
 data class SigninReq(
@@ -43,10 +47,7 @@ data class SigninReq(
     @get:NotBlank
     var snsId: String,
     @field:NotNull
-    var snsType: SnsType,
-    @get:NotBlank
-    @get:Pattern(regexp = passwordRegex)
-    var password: String
+    var snsType: SnsType
 )
 
 data class DuplicateCheckReq(
@@ -72,6 +73,8 @@ data class MemberRes(
     var status: MemberStatus? = null,
     var nickName: String? = null,
     var realName: String? = null,
+    var phoneNumber: String? = null,
+    var agreeService: Boolean? = null,
     var createdAt: Instant? = null
 )
 

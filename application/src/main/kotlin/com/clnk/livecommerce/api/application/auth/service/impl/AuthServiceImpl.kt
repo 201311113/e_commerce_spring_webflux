@@ -8,7 +8,7 @@ import com.clnk.livecommerce.api.application.common.config.security.JWTService
 import com.clnk.livecommerce.api.application.common.exception.ApplicationErrorMessageCode
 import com.clnk.livecommerce.api.application.common.exception.SigninSnsException
 import com.clnk.livecommerce.api.library.member.SnsType
-import com.clnk.livecommerce.api.library.member.repository.MemberRepository
+import com.clnk.livecommerce.api.library.member.repository.MemberInfoRepository
 import com.clnk.livecommerce.api.application.adapter.KakaoAuth
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
@@ -20,7 +20,7 @@ private val logger = KotlinLogging.logger {}
 @Service
 class AuthServiceImpl(
     val jwtService: JWTService,
-    val memberRepository: MemberRepository,
+    val memberInfoRepository: MemberInfoRepository,
     val facebookAuth: FacebookAuth,
     val kakaoAuth: KakaoAuth,
     val googleAuth: GoogleAuth,
@@ -28,7 +28,7 @@ class AuthServiceImpl(
 ) : AuthService {
     @Transactional(readOnly = true)
     override fun getAccessToken(memberId: Long): TokenRes {
-        val member = memberRepository.findByIdAndActive(memberId, true)
+        val member = memberInfoRepository.findByIdAndActive(memberId, true)
             ?: throw EntityNotFoundException("not found a Member(id = ${memberId})")
         val authorities = member.roles.map { memberRole -> memberRole.role.roleType.name }.toTypedArray()
         val token: String = jwtService.accessToken(member.id.toString(), authorities)

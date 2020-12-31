@@ -4,7 +4,7 @@ import com.clnk.livecommerce.api.library.model.BaseEntity
 import javax.persistence.*
 
 @Entity
-class Member(
+class MemberInfo(
     @Column(length = 200)
     var snsId: String,
     @Column(length = 50)
@@ -20,13 +20,20 @@ class Member(
     var nickName: String? = null,
     @Column(length = 100)
     var realName: String? = null,
-    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "member")
+    @Column(length = 50)
+    var phoneNumber: String? = null,
+
+    var agreeService: Boolean = false,
+    var agreeSecurity: Boolean = false,
+    var agreeMarketing: Boolean = false,
+
+    @OneToMany(cascade = [CascadeType.ALL], mappedBy = "memberInfo")
     var roles: MutableSet<MemberRole> = mutableSetOf()
 
 ) : BaseEntity() {
     internal fun addRole(memberRole: MemberRole) {
         roles.add(memberRole)
-        memberRole.member = this
+        memberRole.memberInfo = this
     }
 }
 
@@ -40,4 +47,8 @@ enum class SnsType {
 
 enum class Gender {
     MALE, FEMALE, UNKNOWN
+}
+
+enum class MemberSearchCondition(val searchKey: String) {
+    NICKNAME("nickname"), PHONENUMBER("phonenumber")
 }

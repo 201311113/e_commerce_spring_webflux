@@ -36,6 +36,7 @@ class AuthHandler(
                 ok().contentType(APPLICATION_JSON).bodyValueAndAwait(it)
             }
     }
+
     private fun validate(signupReq: SignupReq) {
         val result = validator.validate(signupReq)
         if (result.size > 0) {
@@ -43,6 +44,7 @@ class AuthHandler(
             throw ValueNotValidException(bindErrors)
         }
     }
+
     suspend fun signupFirebaseEmail(request: ServerRequest): ServerResponse {
         val signupReq = request.awaitBody<SignupFirebaseEmailReq>()
         validateFirebaseEmail(signupReq)
@@ -51,6 +53,7 @@ class AuthHandler(
                 ok().contentType(APPLICATION_JSON).bodyValueAndAwait(it)
             }
     }
+
     private fun validateFirebaseEmail(signupReq: SignupFirebaseEmailReq) {
         val result = validator.validate(signupReq)
         if (result.size > 0) {
@@ -61,9 +64,11 @@ class AuthHandler(
 
     suspend fun signin(request: ServerRequest): ServerResponse {
         log.debug { "]-----] AuthHandler::signin [-----[ call " }
-//        val signupReq = request.awaitBody<SigninReq>()
-//        validate(signupReq)
-        return ok().contentType(APPLICATION_JSON).bodyValueAndAwait("Hello World")
+        val signupReq = request.awaitBody<SigninReq>()
+        return memberService.signinFirebaseEmail(signupReq)
+            .let {
+                ok().contentType(APPLICATION_JSON).bodyValueAndAwait(authService.getAccessToken(it.id))
+            }
 
     }
 

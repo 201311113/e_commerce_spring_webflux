@@ -36,8 +36,8 @@ class OnSaleItemDslRepositoryImpl : QuerydslCustomRepositorySupport(OnSaleItem::
             }
         }
         val query = select(onSaleItem).from(onSaleItem).where(onSaleItem.active.eq(true).and(whereClause))
-        val products: List<OnSaleItem> = querydsl!!.applyPagination(pageable, query).fetch()
-        return PageImpl(products, pageable, query.fetchCount())
+        val onSaleItems: List<OnSaleItem> = querydsl!!.applyPagination(pageable, query).fetch()
+        return PageImpl(onSaleItems, pageable, query.fetchCount())
     }
 
 }

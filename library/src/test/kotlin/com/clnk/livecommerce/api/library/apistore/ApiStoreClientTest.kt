@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 private val logger = KotlinLogging.logger {}
 
 class ApiStoreClientTest(@Autowired private val client: ApiStoreClient) : LibraryTests() {
-    @Test
+//    @Test
     fun sendAlimtalk() {
         val req = SendAlimtalkReq(
             phone = "01030982101",

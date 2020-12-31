@@ -1,5 +1,6 @@
 package com.clnk.livecommerce.api.onsaleitem.service.impl
 
+import com.clnk.livecommerce.api.library.member.MemberRes
 import com.clnk.livecommerce.api.library.onsaleitem.*
 import com.clnk.livecommerce.api.library.onsaleitem.repository.OnSaleItemOptionGroupRepository
 import com.clnk.livecommerce.api.library.onsaleitem.repository.OnSaleItemOptionRepository
@@ -121,3 +122,4 @@ class OnSaleItemServiceImpl(
         return CreateOnSaleItemRes(onSaleItem.id!!)
     }
 }
+
