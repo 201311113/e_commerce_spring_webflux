@@ -1,10 +1,10 @@
-package com.clnk.livecommerce.api.library.onsaleitem.repository.impl
+package com.clnk.livecommerce.api.library.preview.repository.impl
 
-import com.clnk.livecommerce.api.library.onsaleitem.OnSaleItem
-import com.clnk.livecommerce.api.library.onsaleitem.OnSaleItemSearchCondition
-import com.clnk.livecommerce.api.library.onsaleitem.repository.OnSaleItemDslRepository
+import com.clnk.livecommerce.api.library.preview.Preview
+import com.clnk.livecommerce.api.library.preview.PreviewSearchCondition
+import com.clnk.livecommerce.api.library.preview.QPreview.preview
+import com.clnk.livecommerce.api.library.preview.repository.PreviewDslRepository
 import com.clnk.livecommerce.api.library.support.QuerydslCustomRepositorySupport
-import com.clnk.livecommerce.api.library.onsaleitem.QOnSaleItem.onSaleItem
 import com.querydsl.core.BooleanBuilder
 import mu.KotlinLogging
 import org.apache.commons.lang3.EnumUtils
@@ -18,26 +18,26 @@ import org.springframework.util.MultiValueMap
 private val logger = KotlinLogging.logger {}
 
 @Repository
-class OnSaleItemDslRepositoryImpl : QuerydslCustomRepositorySupport(OnSaleItem::class.java), OnSaleItemDslRepository {
-    override fun findAllBySearch(pageable: Pageable, queryParams: MultiValueMap<String, String>): Page<OnSaleItem> {
+class PreviewDslRepositoryImpl : QuerydslCustomRepositorySupport(Preview::class.java), PreviewDslRepository {
+    override fun findAllBySearch(pageable: Pageable, queryParams: MultiValueMap<String, String>): Page<Preview> {
         val whereClause = BooleanBuilder()
         if (queryParams.size > 0) {
             for (key in queryParams.keys) {
-                if (EnumUtils.isValidEnum(OnSaleItemSearchCondition::class.java, key.toUpperCase())) {
+                if (EnumUtils.isValidEnum(PreviewSearchCondition::class.java, key.toUpperCase())) {
                     val searchContent = queryParams[key]!![0]
                     if (StringUtils.isNoneBlank(searchContent)) {
                         when (key.toLowerCase()) {
-                            OnSaleItemSearchCondition.TITLE.searchKey -> whereClause.apply { this.and(onSaleItem.title.like("%${searchContent}%")) }
-                            OnSaleItemSearchCondition.DESCRIPTION.searchKey -> whereClause.apply { this.and(onSaleItem.description.like("%${searchContent}%")) }
-                            OnSaleItemSearchCondition.PRODUCTNAME.searchKey -> whereClause.apply { this.and(onSaleItem.product.name.like("%${searchContent}%")) }
+                            PreviewSearchCondition.TITLE.searchKey -> whereClause.apply { this.and(preview.title.like("%${searchContent}%")) }
+                            PreviewSearchCondition.DESCRIPTION.searchKey -> whereClause.apply { this.and(preview.description.like("%${searchContent}%")) }
+
                         }
                     }
                 }
             }
         }
-        val query = select(onSaleItem).from(onSaleItem).where(onSaleItem.active.eq(true).and(whereClause))
-        val onSaleItems: List<OnSaleItem> = querydsl!!.applyPagination(pageable, query).fetch()
-        return PageImpl(onSaleItems, pageable, query.fetchCount())
+        val query = select(preview).from(preview).where(preview.active.eq(true).and(whereClause))
+        val previews: List<Preview> = querydsl!!.applyPagination(pageable, query).fetch()
+        return PageImpl(previews, pageable, query.fetchCount())
     }
 
 }

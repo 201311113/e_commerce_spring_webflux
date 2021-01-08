@@ -1,12 +1,14 @@
-package com.clnk.livecommerce.api.library.product.service.impl
+package com.clnk.livecommerce.api.library.preview.service.impl
 
-import com.clnk.livecommerce.api.library.brand.repository.BrandRepository
 import com.clnk.livecommerce.api.library.infra.MediaUtils
 import com.clnk.livecommerce.api.library.media.Media
 import com.clnk.livecommerce.api.library.media.repository.MediaRepository
-import com.clnk.livecommerce.api.library.product.*
-import com.clnk.livecommerce.api.library.product.repository.ProductRepository
-import com.clnk.livecommerce.api.library.product.service.ProductService
+import com.clnk.livecommerce.api.library.preview.CreatePreviewReq
+import com.clnk.livecommerce.api.library.preview.CreatePreviewRes
+import com.clnk.livecommerce.api.library.preview.Preview
+import com.clnk.livecommerce.api.library.preview.PreviewRes
+import com.clnk.livecommerce.api.library.preview.repository.PreviewRepository
+import com.clnk.livecommerce.api.library.preview.service.PreviewService
 import mu.KotlinLogging
 import org.modelmapper.ModelMapper
 import org.springframework.data.domain.Page
@@ -19,31 +21,31 @@ import javax.persistence.EntityNotFoundException
 private val log = KotlinLogging.logger {}
 
 @Service
-class ProductServiceImpl(
+class PreviewServiceImpl(
 
-    private var productRepository: ProductRepository,
+    private var previewRepository: PreviewRepository,
     private var mediaRepository: MediaRepository,
-    private var brandRepository: BrandRepository,
     private var modelMapper: ModelMapper,
-    private var mediaUtils: MediaUtils,
-) : ProductService {
+    private var mediaUtils: MediaUtils
+) : PreviewService {
     @Transactional
-    override fun create(req: CreateProductReq, adminId: Long): CreateProductRes {
-        log.info { "]-----] ProductServiceImpl::create CreateProductReq[-----[ ${req}" }
-        val brand = brandRepository.findByIdAndActive(req.brandId, true)
-            ?: throw EntityNotFoundException("not found a Brand(id = ${req.brandId})")
-        val newProduct = Product(
-            name = req.name,
+    override fun create(req: CreatePreviewReq, adminId: Long): CreatePreviewRes {
+        log.info { "]-----] PreviewServiceImpl::create CreatePreviewReq[-----[ ${req}" }
+
+        val newPreview = Preview(
+            title = req.title,
             description = req.description,
-            brand = brand
+            startAt = req.startAt,
+            endAt = req.endAt,
+            sortPosition = req.sortPosition
         )
-        productRepository.save(newProduct)
+        previewRepository.save(newPreview)
         if (req.newImages.size > 0) {
             val medias: MutableList<Media> = mutableListOf()
             for (i in req.newImages.indices) {
-                val mediaInfo = req.newImages[i].newImage?.let { mediaUtils.getMediaInfo(it, "product") }
+                val mediaInfo = req.newImages[i].newImage?.let { mediaUtils.getMediaInfo(it, "preview") }
                 val newMedia = Media(
-                    mediaUuid = newProduct.mediaUuid,
+                    mediaUuid = newPreview.mediaUuid,
                     url = mediaInfo!!.fullPath,
                     originName = mediaInfo.originalName,
                     modifyName = mediaInfo.modifyName,
@@ -56,38 +58,41 @@ class ProductServiceImpl(
             mediaRepository.saveAll(medias)
         }
 
-        return CreateProductRes(newProduct.id!!)
+        return CreatePreviewRes(newPreview.id!!)
     }
 
     @Transactional(readOnly = true)
-    override fun findAll(pageable: Pageable, queryParams: MultiValueMap<String, String>): Page<ProductListRes> {
-        val products = productRepository.findAllBySearch(pageable, queryParams)
-        return products.map {
-            modelMapper.map(it, ProductListRes::class.java)
+    override fun findAll(pageable: Pageable, queryParams: MultiValueMap<String, String>): Page<PreviewRes> {
+        val previews = previewRepository.findAllBySearch(pageable, queryParams)
+        return previews.map {
+            modelMapper.map(it, PreviewRes::class.java)
         }
     }
 
     @Transactional(readOnly = true)
-    override fun findById(id: Long): ProductRes {
-        val item = productRepository.findByIdAndActive(id, true)
-        return modelMapper.map(item, ProductRes::class.java)
+    override fun findById(id: Long): PreviewRes {
+        val item = previewRepository.findByIdAndActive(id, true)
+        return modelMapper.map(item, PreviewRes::class.java)
     }
 
     @Transactional
-    override fun update(id: Long, req: CreateProductReq, adminId: Long): CreateProductRes {
-        log.info { "]-----] ProductServiceImpl::update CreateProductReq[-----[ ${req}" }
-        val product = productRepository.findByIdAndActive(id, true)
-            ?: throw EntityNotFoundException("not found a Product(id = ${id})")
-        product.name = req.name
-        product.description = req.description
-        productRepository.save(product)
+    override fun update(id: Long, req: CreatePreviewReq, adminId: Long): CreatePreviewRes {
+        log.info { "]-----] PreviewServiceImpl::update CreatePreviewReq[-----[ ${req}" }
+        val preview = previewRepository.findByIdAndActive(id, true)
+            ?: throw EntityNotFoundException("not found a Preview(id = ${id})")
+        preview.title = req.title
+        preview.description = req.description
+        preview.startAt = req.startAt
+        preview.endAt = req.endAt
+        preview.sortPosition = req.sortPosition
+        previewRepository.save(preview)
 
         if (req.newImages.size > 0) {
             val medias: MutableList<Media> = mutableListOf()
             for (i in req.newImages.indices) {
-                val mediaInfo = req.newImages[i].newImage?.let { mediaUtils.getMediaInfo(it, "product") }
+                val mediaInfo = req.newImages[i].newImage?.let { mediaUtils.getMediaInfo(it, "preview") }
                 val newMedia = Media(
-                    mediaUuid = product.mediaUuid,
+                    mediaUuid = preview.mediaUuid,
                     url = mediaInfo!!.fullPath,
                     originName = mediaInfo.originalName,
                     modifyName = mediaInfo.modifyName,
@@ -99,19 +104,19 @@ class ProductServiceImpl(
             }
             mediaRepository.saveAll(medias)
         }
-        log.info { "]-----] ProductServiceImpl::update updatedImages[-----[ ${req.updatedImages.size}" }
-        log.info { "]-----] ProductServiceImpl::update deletedImages[-----[ ${req.deletedImages.size}" }
+        log.info { "]-----] PreviewServiceImpl::update updatedImages[-----[ ${req.updatedImages.size}" }
+        log.info { "]-----] PreviewServiceImpl::update deletedImages[-----[ ${req.deletedImages.size}" }
         if (req.updatedImages.size > 0) {
             for (j in req.updatedImages.indices) {
-                val media = mediaRepository.findByIdAndMediaUuidAndActive(req.updatedImages[j].id, product.mediaUuid, true)
+                val media = mediaRepository.findByIdAndMediaUuidAndActive(req.updatedImages[j].id, preview.mediaUuid, true)
                     ?: throw EntityNotFoundException("not found a Media(id = ${req.updatedImages[j].id})")
                 media.sortPosition = req.updatedImages[j].sortPosition
                 mediaRepository.save(media)
             }
         }
         if (req.deletedImages.size > 0) {
-            mediaRepository.deleteByIds(req.deletedImages, product.mediaUuid)
+            mediaRepository.deleteByIds(req.deletedImages, preview.mediaUuid)
         }
-        return CreateProductRes(product.id!!)
+        return CreatePreviewRes(preview.id!!)
     }
 }

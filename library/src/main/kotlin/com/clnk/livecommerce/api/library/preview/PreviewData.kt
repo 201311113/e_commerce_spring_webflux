@@ -1,43 +1,32 @@
-package com.clnk.livecommerce.api.library.product
+package com.clnk.livecommerce.api.library.preview
 
-import com.clnk.livecommerce.api.library.brand.BrandRes
 import com.clnk.livecommerce.api.library.media.MediaReq
 import com.clnk.livecommerce.api.library.media.MediaRes
 import com.clnk.livecommerce.api.library.media.NewImage
 import java.time.Instant
 import javax.validation.constraints.NotBlank
 
-data class CreateProductReq(
+data class CreatePreviewReq(
     @get:NotBlank
-    var name: String,
+    var title: String,
     var description: String,
-    var brandId: Long,
+    var startAt: Instant,
+    var endAt: Instant,
+    var sortPosition: Int,
     var updatedImages: MutableList<MediaReq> = mutableListOf(),
     var newImages: MutableList<NewImage> = mutableListOf(),
     var deletedImages: MutableList<Long> = mutableListOf()
 )
-//
-//data class ProductMediaReq(
-//    var productImage: FilePart? = null,
-//    var sortPosition: Int = 0
-//)
 
-data class CreateProductRes(var id: Long = -1)
+data class CreatePreviewRes(var id: Long = -1)
 
-data class ProductListRes(
+data class PreviewRes(
     var id: Long = -1,
-    var name: String? = null,
+    var title: String? = null,
     var description: String? = null,
+    var startAt: Instant? = null,
+    var endAt: Instant? = null,
+    var sortPosition: Int? = null,
     var medias: MutableList<MediaRes> = mutableListOf(),
     var createdAt: Instant? = null
-)
-
-data class ProductRes(
-    var id: Long = -1,
-    var name: String? = null,
-    var description: String? = null,
-    var medias: MutableList<MediaRes> = mutableListOf(),
-    var optionGroups: MutableList<OptionGroupRes> = mutableListOf(),
-    var createdAt: Instant? = null,
-    var brand: BrandRes? = null,
 )
