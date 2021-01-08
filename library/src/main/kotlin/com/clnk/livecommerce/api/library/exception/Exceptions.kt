@@ -14,6 +14,7 @@ class SigninException(errorMessageCode: ErrorMessageCode) : ApplicationException
 class ProductException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
 class MediaUtilsException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
 class BroadcastException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
+class PreviewException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
 
 class OrderException(errorMessageCode: ErrorMessageCode) : ApplicationException(errorMessageCode)
 

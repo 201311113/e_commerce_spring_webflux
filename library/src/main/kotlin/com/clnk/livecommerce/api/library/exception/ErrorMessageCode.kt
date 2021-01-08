@@ -27,6 +27,13 @@ enum class ErrorMessageCode(val code: String, val message: String) {
     BROADCAST_ENDAT_REQUIRED("1601", "broadcast endat required"),
     BROADCAST_ONSALEITEMS_REQUIRED("1601", "broadcast onsaleitems required"),
 
+    PREVIEW_NOT_FOUND("1500", "preview not found"),
+    PREVIEW_TITLE_REQUIRED("1501", "preview title required"),
+    PREVIEW_DESCRIPTION_REQUIRED("1502", "preview description required"),
+    PREVIEW_IMAGE_REQUIRED("1503", "preview image required"),
+    PREVIEW_STARTAT_REQUIRED("1503", "preview startat required"),
+    PREVIEW_ENDAT_REQUIRED("1503", "preview startatendat required"),
+    PREVIEW_SORTPOSITION_REQUIRED("1503", "preview sortposition required"),
 
     ORDER_PRICE_NOT_ALLOWED("2001", "Order Price Not Allowed"),
     ORDER_PRICE_NOT_MATCHED("2002", "Order Price Not Matched"),
