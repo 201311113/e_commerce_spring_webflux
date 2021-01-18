@@ -31,6 +31,7 @@ class SecurityConfig(private val jwrService: JWTService) {
             "/api/v1/auth/isduplicated/nickname",
             "/api/v1/auth/verify/phonenumber/send",
             "/api/v1/auth/verify/phonenumber",
+            "/api/v1/broadcast/**",
         )
     }
 
