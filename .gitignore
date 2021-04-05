@@ -8,3 +8,4 @@ build
 application/src/main/resources/application-local.properties
 admin/src/main/resources/application-local.properties
 .idea/workspace.xml
+
